@@ -1,24 +1,37 @@
 import React from "react";
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 import Logo from "../img/Logo";
+import HeaderNavItem from "./HeaderNavItem";
 
 const Header = () => {
   return (
     <HeaderContainer>
-      <NavLogo href="#">
+      <NavLogo to={"/Заказы"}>
         <Logo />
       </NavLogo>
-      <HeaderNavItems>
-        <HeaderNavItem active href="#">
-          Заказы
-        </HeaderNavItem>
-        <HeaderNavItem href="#">Товары</HeaderNavItem>
-        <HeaderNavItem href="#">История</HeaderNavItem>
-        <HeaderNavItem href="#">Профиль</HeaderNavItem>
-      </HeaderNavItems>
+      <nav>
+        <HeaderNavItems>
+          <HeaderNavItem name="Заказы" />
+          <HeaderNavItem name="Товары" />
+          <HeaderNavItem name="История" />
+          <HeaderNavItem name="Профиль" />
+        </HeaderNavItems>
+      </nav>
     </HeaderContainer>
   );
 };
+
+const HeaderNavItems = styled.ul`
+  list-style: none;
+  width: 45vw;
+  display: flex;
+  margin-left: 15vw;
+`;
+
+const NavLogo = styled(NavLink)`
+  margin-left: 5vw;
+`;
 
 const HeaderContainer = styled.header`
   background-color: white;
@@ -26,32 +39,8 @@ const HeaderContainer = styled.header`
   width: 100vw;
   display: flex;
   align-items: center;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-`;
-
-const HeaderNavItems = styled.nav`
-  width: 45vw;
-  display: flex;
-  margin-left: 15vw;
-`;
-
-const NavLogo = styled.a`
-  margin-left: 5vw;
-`;
-
-const HeaderNavItem = styled.a`
-  background-color: white;
-  color: black;
-  ${(props: { active?: boolean }) =>
-    props.active && "background-color: #A72B2B; color: white;"}
-  height: 12vh;
-  padding-left: 4vw;
-  padding-right: 4vw;
-  display: flex;
-  align-items: center;
-  font-size: 1.2em;
-  font-weight: 600;
-  text-decoration: none;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  z-index:1;
 `;
 
 export default Header;

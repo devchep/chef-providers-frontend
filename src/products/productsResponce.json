@@ -1,0 +1,28 @@
+{
+  "active": [
+    {
+      "id": 1,
+      "name": "Мясо",
+      "subcategories": [
+        { "id": 1, "name": "Охлажденное", "amount": 5 },
+        { "id": 2, "name": "Замороженное", "amount": 5 }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Рыба",
+      "subcategories": [{ "id": 1, "name": "Охлажденное", "amount": 2 }]
+    },
+    { "id": 3, "name": "Морепродукты", "subcategories": [] },
+    { "id": 4, "name": "Молочные продукты", "subcategories": [] },
+    { "id": 5, "name": "Хлеб и выпечка", "subcategories": [] },
+    { "id": 6, "name": "Пряности и травы", "subcategories": [] }
+  ],
+  "inactive": [
+    {
+      "id": 7,
+      "name": "Птица",
+      "subcategories": [{ "id": 1, "name": "Замороженное", "amount": 3 }]
+    }
+  ]
+}
