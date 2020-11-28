@@ -1,28 +1,39 @@
 {
-  "active": [
+  "categoryId": 3,
+  "products": [
     {
-      "id": 1,
-      "name": "Мясо",
-      "subcategories": [
-        { "id": 1, "name": "Охлажденное", "amount": 5 },
-        { "id": 2, "name": "Замороженное", "amount": 5 }
+      "name": "Креветки тигровые с головой",
+      "price": 1337,
+      "measure": "кг"
+    },
+    {
+      "name": "Креветки тигровые с головой",
+      "price": 1337,
+      "measure": "кг"
+    },
+    {
+      "name": "Креветки тигровые с головой",
+      "price": 1337,
+      "measure": "кг"
+    }
+  ],
+  "subcategories": [
+    {
+      "subcategoryId": 1,
+      "products": [
+        {
+          "name": "Креветки тигровые с головой",
+          "price": 842,
+          "measure": "кг"
+        },
+        {
+          "name": "Креветки королевские Vannamei",
+          "price": 1958,
+          "measure": "уп.",
+          "volume": "(40-60шт/1 кг)"
+        }
       ]
     },
-    {
-      "id": 2,
-      "name": "Рыба",
-      "subcategories": [{ "id": 1, "name": "Охлажденное", "amount": 2 }]
-    },
-    { "id": 3, "name": "Морепродукты", "subcategories": [] },
-    { "id": 4, "name": "Молочные продукты", "subcategories": [] },
-    { "id": 5, "name": "Хлеб и выпечка", "subcategories": [] },
-    { "id": 6, "name": "Пряности и травы", "subcategories": [] }
-  ],
-  "inactive": [
-    {
-      "id": 7,
-      "name": "Птица",
-      "subcategories": [{ "id": 1, "name": "Замороженное", "amount": 3 }]
-    }
+    { "subcategoryId": 2, "products": [] }
   ]
 }

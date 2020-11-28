@@ -35,7 +35,7 @@ const UntickedBox = () => (
           result="hardAlpha"
         />
         <feOffset />
-        <feGaussianBlur stdDeviation="2.5" />
+        <feGaussianBlur stdDeviation="2" />
         <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
         <feColorMatrix
           type="matrix"

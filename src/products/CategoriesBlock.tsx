@@ -3,11 +3,16 @@ import styled from "styled-components";
 import AddCategoryIcon from "../img/AddCategoryIcon";
 
 interface CategoriesBlockProps {
-  activeCategories: string[];
-  inactiveCategories: string[];
-  currentCategory: string;
+  activeCategories: { name: string; id: number }[];
+  inactiveCategories: { name: string; id: number }[];
+  currentCategory: { name: string; id: number };
   showActiveType: boolean;
-  onClickCategory: (category: string) => void;
+  onClickCategory: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      id: number;
+    }>
+  >;
   onClickType: (isActive: boolean) => void;
 }
 
@@ -19,24 +24,23 @@ const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
   onClickCategory,
   onClickType,
 }: CategoriesBlockProps) => {
-  console.log("renderCategroriesBlock", showActiveType, currentCategory)
   const activeItems = activeCategories.map((item) => (
-    <CategoryContainer key={item}>
+    <CategoryContainer key={item.name}>
       <CategoryButton
         selected={item === currentCategory}
         onClick={() => onClickCategory(item)}
       >
-        <CategoryButtonText>{item}</CategoryButtonText>
+        <CategoryButtonText>{item.name}</CategoryButtonText>
       </CategoryButton>
     </CategoryContainer>
   ));
   const inactiveItems = inactiveCategories.map((item) => (
-    <CategoryContainer key={item}>
+    <CategoryContainer key={item.name}>
       <CategoryButton
         selected={item === currentCategory}
         onClick={() => onClickCategory(item)}
       >
-        <CategoryButtonText>{item}</CategoryButtonText>
+        <CategoryButtonText>{item.name}</CategoryButtonText>
       </CategoryButton>
     </CategoryContainer>
   ));

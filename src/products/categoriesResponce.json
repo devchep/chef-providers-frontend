@@ -1,22 +1,38 @@
 {
   "active": [
     {
-      "id": 1,
-      "name": "Мясо",
+      "id": 3,
+      "name": "Морепродукты",
+      "amount": 10,
       "subcategories": [
-        { "id": 1, "name": "Охлажденное", "amount": 5 },
-        { "id": 2, "name": "Замороженное", "amount": 5 }
+        { "id": 1, "name": "Креветки", "amount": 5 },
+        { "id": 2, "name": "Мидии", "amount": 5 }
       ]
     },
-    { "id": 2, "name": "Рыба", "subcategories": [{ "id": 1, "name": "Охлажденное", "amount": 2 }] },
-    { "id": 3, "name": "Морепродукты", "subcategories": [] },
-    { "id": 4, "name": "Молочные продукты", "subcategories": [] },
-    { "id": 5, "name": "Хлеб и выпечка", "subcategories": [] },
-    { "id": 6, "name": "Пряности и травы", "subcategories": [] }
+    {
+      "id": 1,
+      "name": "Мясо",
+      "amount": 10,
+      "subcategories": [
+        { "id": 1, "name": "Говядина", "amount": 5 },
+        { "id": 2, "name": "Свинина", "amount": 5 }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Рыба",
+      "amount": 2,
+      "subcategories": [{ "id": 1, "name": "Охлажденное", "amount": 2 }]
+    },
+    { "id": 4, "name": "Молочные продукты", "amount": 0, "subcategories": [] },
+    { "id": 5, "name": "Хлеб и выпечка", "amount": 0, "subcategories": [] },
+    { "id": 6, "name": "Пряности и травы", "amount": 0, "subcategories": [] }
   ],
   "inactive": [
     {
-      "id": 7, "name": "Птица",
+      "id": 7,
+      "name": "Птица",
+      "amount": 3,
       "subcategories": [{ "id": 1, "name": "Замороженное", "amount": 3 }]
     }
   ]
