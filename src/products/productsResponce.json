@@ -2,19 +2,25 @@
   "categoryId": 3,
   "products": [
     {
+      "id": 1,
       "name": "Креветки тигровые с головой",
       "price": 1337,
-      "measure": "кг"
+      "measure": "кг",
+      "isActive": true
     },
     {
+      "id": 2,
       "name": "Креветки тигровые с головой",
       "price": 1337,
-      "measure": "кг"
+      "measure": "кг",
+      "isActive": true
     },
     {
+      "id": 3,
       "name": "Креветки тигровые с головой",
       "price": 1337,
-      "measure": "кг"
+      "measure": "кг",
+      "isActive": true
     }
   ],
   "subcategories": [
@@ -22,15 +28,19 @@
       "subcategoryId": 1,
       "products": [
         {
+          "id": 4,
           "name": "Креветки тигровые с головой",
           "price": 842,
-          "measure": "кг"
+          "measure": "кг",
+          "isActive": true
         },
         {
+          "id": 5,
           "name": "Креветки королевские Vannamei",
           "price": 1958,
           "measure": "уп.",
-          "volume": "(40-60шт/1 кг)"
+          "volume": "(40-60шт/1 кг)",
+          "isActive": true
         }
       ]
     },

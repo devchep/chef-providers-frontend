@@ -1,22 +1,29 @@
 import React from "react";
 import styled from "styled-components";
-import TickedItem from "./TickedItem";
 import SubcategoriesList from "./SubcategoriesList";
-import CategoryMenu from "../img/CategoryMenu";
-import ItemMenu from "../img/ItemMenu";
+import { Route, Switch } from "react-router-dom";
+import ProductsList from "./ProductsList";
+import CurrentCategory from "./CurrentCategory";
 
 interface ProductsManagerProps {
+  onClickSubcategory: (subcategoryId: number, categoryName: string) => void;
+
   categoryInfo: {
     name: string;
     id: number;
   };
+
   activeProducts:
     | {
+        id: number;
         name: string;
         price: number;
         measure: string;
       }[]
-    | null;
+    | undefined;
+
+  activeSubcategory: string;
+
   activeCategory:
     | {
         id: number;
@@ -34,51 +41,49 @@ interface ProductsManagerProps {
 const ProductsManager: React.FC<ProductsManagerProps> = ({
   categoryInfo,
   activeCategory,
+  activeSubcategory,
   activeProducts,
+  onClickSubcategory,
 }: ProductsManagerProps) => {
-  console.log(activeProducts);
   const subategories = activeCategory ? (
-    <SubcategoriesList subcategories={activeCategory.subcategories} />
+    <SubcategoriesList
+      subcategories={activeCategory.subcategories}
+      onClickSubcategory={onClickSubcategory}
+    />
   ) : null;
-  const products = activeProducts
-    ? activeProducts.map((item) => (
-        <ProductItem>
-          <ProductItemInfoContainer>
-            <TickedItem name={item.name} type="product" paddingLeft={"1em"} />
-            <ProductItemInfo>
-              <ProductPrice>
-                {item.price} ₽ / {item.measure}
-              </ProductPrice>
-            </ProductItemInfo>
-          </ProductItemInfoContainer>
-          <ProductMenu>
-            <ItemMenu />
-          </ProductMenu>
-        </ProductItem>
-      ))
-    : null;
+  const products = activeProducts ? (
+    <ProductsList products={activeProducts} />
+  ) : null;
   return (
     <ScrollableView>
       <ProductsManagerContainer>
-        <CategoryHeaderContainer>
-          <TickedItem name={categoryInfo.name} type="category" bold />
-          {activeCategory?.amount !== undefined && (
-            <ProductsAmount>
-              Всего {activeCategory.amount} позиций
-            </ProductsAmount>
-          )}
-          <MenuContainer>
-            <CategoryMenu />
-          </MenuContainer>
-        </CategoryHeaderContainer>
-        <SubcategoryLabel>
-          <b>Подкатегории</b>
-        </SubcategoryLabel>
-        {subategories}
-        <WithoutSubcategoryLabel>
-          Товары без <b>подкатегории</b>
-        </WithoutSubcategoryLabel>
-        <ProductsContainer>{products}</ProductsContainer>
+        <Route exact path="/Товары/:category">
+          <CurrentCategory
+            categoryName={categoryInfo.name}
+            productsAmount={activeCategory?.amount}
+          />
+        </Route>
+        <Route path="/Товары/:category/:subcategory">
+          <CurrentCategory
+            categoryName={categoryInfo.name}
+          />
+        </Route>
+        <Switch>
+          <Route exact path="/Товары/:category">
+            <SubcategoryLabel>
+              Подкатегории
+            </SubcategoryLabel>
+            {subategories}
+            <WithoutSubcategoryLabel>
+              Товары без подкатегории
+            </WithoutSubcategoryLabel>
+            {products}
+          </Route>
+          <Route path="/Товары/:category/:subcategory">
+            <ProductLabel>{activeSubcategory}</ProductLabel>
+            {products}
+          </Route>
+        </Switch>
       </ProductsManagerContainer>
     </ScrollableView>
   );
@@ -94,75 +99,6 @@ const ProductsManagerContainer = styled.div`
   padding-left: 3em;
   padding-top: 2em;
   width: 50vw;
-`;
-
-const CategoryHeaderContainer = styled.div`
-  position: relative;
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ProductsAmount = styled.div`
-  color: #949494;
-  margin-right: 0.5em;
-`;
-
-const MenuContainer = styled.div`
-  position: absolute;
-  right: -4vw;
-  margin-right: -4px;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-const ProductsContainer = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-`;
-
-const ProductItem = styled.li`
-  position: relative;
-  height: 5em;
-  width: 50vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  border-bottom: 2px solid #dddddd;
-  &:hover {
-    cursor: pointer;
-    background-color: #fbfbfb;
-  }
-  &:first-child {
-    border-top: 2px solid #dddddd;
-  }
-`;
-
-const ProductItemInfoContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 2vh;
-`;
-
-const ProductItemInfo = styled.div`
-  margin-right: 1em;
-  font-size: 1.1em;
-  display: flex;
-  flex-direction: column;
-`;
-
-const ProductPrice = styled.div``;
-
-const ProductMenu = styled.div`
-  position: absolute;
-  right: -4vw;
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 const WithoutSubcategoryLabel = styled.div`
@@ -181,6 +117,17 @@ const SubcategoryLabel = styled.div`
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   background-color: #fff5d0;
+`;
+
+const ProductLabel = styled.div`
+  width: 99%;
+  margin-top: 1em;
+  padding-left: 1%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  background-color: #EEEEEE;
+  font-size: 1.1em;
+  font-weight: bold;
 `;
 
 export default ProductsManager;

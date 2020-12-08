@@ -3,7 +3,7 @@
     {
       "id": 3,
       "name": "Морепродукты",
-      "amount": 10,
+      "amount": 13,
       "subcategories": [
         { "id": 1, "name": "Креветки", "amount": 5 },
         { "id": 2, "name": "Мидии", "amount": 5 }
@@ -27,13 +27,5 @@
     { "id": 4, "name": "Молочные продукты", "amount": 0, "subcategories": [] },
     { "id": 5, "name": "Хлеб и выпечка", "amount": 0, "subcategories": [] },
     { "id": 6, "name": "Пряности и травы", "amount": 0, "subcategories": [] }
-  ],
-  "inactive": [
-    {
-      "id": 7,
-      "name": "Птица",
-      "amount": 3,
-      "subcategories": [{ "id": 1, "name": "Замороженное", "amount": 3 }]
-    }
   ]
 }

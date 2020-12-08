@@ -2,47 +2,37 @@ import React from "react";
 import styled from "styled-components";
 import Checkbox from "./Checkbox";
 
-const fontSizes = {
-  category: "1.8em",
-  subcategory: "1.4em",
-  product: "1.1em",
+enum paddingLeft {
+  subcategory = "1em",
+  product = "1em",
 };
 
+enum marginTop {
+  subcategory = "4px",
+  product = "-10px",
+}
+
 interface TickedItemProps {
-  name: string;
-  type: "category" | "subcategory" | "product";
-  bold?: boolean;
-  paddingLeft?: string;
+  type: "subcategory" | "product";
 }
 
 const TickedItem: React.FC<TickedItemProps> = ({
-  name,
   type,
-  bold = false,
-  paddingLeft
 }: TickedItemProps) => {
   const onPress = () => {}
   return (
-    <TickedItemWrapper paddingLeft={paddingLeft}>
+    <TickedItemWrapper paddingLeft={paddingLeft[type]} marginTop={marginTop[type]}>
       <Checkbox onPress={onPress}/>
-      <TickedItemText bold={bold} fontSize={fontSizes[type]}>
-        {name}
-      </TickedItemText>
     </TickedItemWrapper>
   );
 };
 
-const TickedItemWrapper = styled.div<{paddingLeft?: string}>`
+const TickedItemWrapper = styled.div<{paddingLeft?: string, marginTop?: string}>`
   padding-left: ${props => props.paddingLeft};
   display: flex;
   align-items: center;
-`;
-
-const TickedItemText = styled.div<{ bold: boolean; fontSize: string}>`
-  margin-bottom: 4px;
-  margin-left: 14px;
-  font-weight: ${(props) => (props.bold ? "bold" : "normal")};
-  font-size: ${(props) => props.fontSize};
+  padding-right: 14px;
+  margin-top: ${props => props.marginTop};;
 `;
 
 export default TickedItem;

@@ -2,43 +2,24 @@ import React from "react";
 import styled from "styled-components";
 import AddCategoryIcon from "../img/AddCategoryIcon";
 
+type Category = { name: string; id: number };
+
 interface CategoriesBlockProps {
-  activeCategories: { name: string; id: number }[];
-  inactiveCategories: { name: string; id: number }[];
-  currentCategory: { name: string; id: number };
-  showActiveType: boolean;
-  onClickCategory: React.Dispatch<
-    React.SetStateAction<{
-      name: string;
-      id: number;
-    }>
-  >;
-  onClickType: (isActive: boolean) => void;
+  activeCategories: Category[];
+  currentCategory: Category;
+  onClickCategory: (name: string, id: number) => void;
 }
 
 const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
   activeCategories,
-  inactiveCategories,
   currentCategory,
-  showActiveType,
   onClickCategory,
-  onClickType,
 }: CategoriesBlockProps) => {
   const activeItems = activeCategories.map((item) => (
     <CategoryContainer key={item.name}>
       <CategoryButton
-        selected={item === currentCategory}
-        onClick={() => onClickCategory(item)}
-      >
-        <CategoryButtonText>{item.name}</CategoryButtonText>
-      </CategoryButton>
-    </CategoryContainer>
-  ));
-  const inactiveItems = inactiveCategories.map((item) => (
-    <CategoryContainer key={item.name}>
-      <CategoryButton
-        selected={item === currentCategory}
-        onClick={() => onClickCategory(item)}
+        selected={item.id === currentCategory.id}
+        onClick={() => onClickCategory(item.name, item.id)}
       >
         <CategoryButtonText>{item.name}</CategoryButtonText>
       </CategoryButton>
@@ -57,26 +38,9 @@ const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
         <ButtonText>Добавить категорию</ButtonText>
       </AddCategoryButton>
       <CategoryTypeContainer>
-        <CategoryType
-          active={showActiveType}
-          onClick={() => {
-            onClickType(true);
-            onClickCategory(activeCategories[0]);
-          }}
-        >
-          АКТИВНЫЕ
-        </CategoryType>
-        <CategoryType
-          active={!showActiveType}
-          onClick={() => {
-            onClickType(false);
-            onClickCategory(inactiveCategories[0]);
-          }}
-        >
-          НЕАКТИВНЫЕ
-        </CategoryType>
+        <CategoryType>АКТИВНЫЕ</CategoryType>
       </CategoryTypeContainer>
-      {showActiveType ? activeItems : inactiveItems}
+      {activeItems}
     </CategoriesBlockContainer>
   );
 };
@@ -92,7 +56,7 @@ const CategoriesBlockContainer = styled.div`
 
 const CategoriesLabel = styled.label`
   padding: 12px;
-  margin-left: 1em;
+  margin-left: 0.5em;
   align-self: flex-start;
   font-size: 0.8rem;
   color: #949494;
@@ -126,19 +90,18 @@ const ButtonText = styled.p`
 const CategoryTypeContainer = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
   border-bottom: 2px solid #eeeeee;
   padding-bottom: 10px;
 `;
 
-const CategoryType = styled.div<{ active: boolean }>`
+const CategoryType = styled.div`
   margin-top: 1.2em;
+  margin-left: 1em;
   padding-left: 0.4em;
   padding-right: 0.4em;
   font-size: 0.9em;
   color: #949494;
-  cursor: pointer;
-  border-bottom: ${(props) => (props.active ? "2px solid #a72b2b" : "none")};
+  border-bottom: 2px solid #a72b2b;
 `;
 
 const CategoryContainer = styled.div`

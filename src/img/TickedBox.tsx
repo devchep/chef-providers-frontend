@@ -8,7 +8,7 @@ const TickedBox = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="26" height="26" fill="#FFE600" />
+    <rect width="26" height="26" fill="#FBE28B" />
     <path
       d="M10.3959 16.1485L7.00781 12.7604L5.85406 13.906L10.3959 18.4479L20.1459 8.69787L19.0003 7.55225L10.3959 16.1485Z"
       fill="black"

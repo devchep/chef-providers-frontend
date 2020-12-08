@@ -6,19 +6,13 @@ import ProductsManager from "./ProductsManager";
 
 import categoriesResponce from "./categoriesResponce.json";
 import productsResponce from "./productsResponce.json";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const ProductsPage: React.FC = () => {
   let history = useHistory();
-  const [showActive, setShowActive] = useState(true);
   const [categories, setCategories] = useState(categoriesResponce);
   const [activeCategories, setActiveCategories] = useState(
     categories.active.map((obj) => {
-      return { name: obj.name, id: obj.id };
-    })
-  );
-  const [inactiveCategories, setInactiveCategories] = useState(
-    categories.inactive.map((obj) => {
       return { name: obj.name, id: obj.id };
     })
   );
@@ -27,17 +21,18 @@ const ProductsPage: React.FC = () => {
     id: categoriesResponce.active[0].id,
   });
   const [activeProducts, setActiveProducts] = useState<
-    {
-      name: string;
-      price: number;
-      measure: string;
-    }[]
-  | null>(null);
+    | {
+        id: number;
+        name: string;
+        price: number;
+        measure: string;
+      }[]
+    | undefined
+  >(undefined);
+  const [activeSubcategory, setActiveSubcategory] = useState("");
 
   const getActiveCategory = () => {
-    return showActive
-      ? categories.active.find((x) => x.id === activeCategoryInfo.id)
-      : categories.inactive.find((x) => x.id === activeCategoryInfo.id);
+    return categories.active.find((x) => x.id === activeCategoryInfo.id);
   };
 
   //useEffect axios + default route
@@ -45,18 +40,31 @@ const ProductsPage: React.FC = () => {
     // ajax categoryId -> products
     productsResponce.categoryId === activeCategoryInfo.id
       ? setActiveProducts(productsResponce.products)
-      : setActiveProducts(null);
-    history.replace(
-      `/Товары/${showActive ? "active" : "inactive"}/${activeCategoryInfo.name}`
+      : setActiveProducts(undefined);
+    history.replace(`/Товары/${activeCategoryInfo.name}`);
+  }, [history]);
+
+  const onClickCategory = (name: string, id: number) => {
+    setActiveCategoryInfo({ name, id });
+    productsResponce.categoryId === id
+      ? setActiveProducts(productsResponce.products)
+      : setActiveProducts(undefined);
+    history.replace(`/Товары/${name}`);
+  };
+
+  const onClickSubcategory = (subcategoryId: number, categoryName: string) => {
+    // TODO: post request
+    setActiveSubcategory(categoryName);
+    setActiveProducts(
+      productsResponce.subcategories.find(
+        (x) => x.subcategoryId == subcategoryId
+      )?.products
     );
-  }, [activeCategoryInfo]);
+    history.push(`/Товары/${activeCategoryInfo.name}/${categoryName}`);
+  };
 
   const onAddCategory = () => {
     alert("addCat");
-  };
-
-  const onClickCategoryType = (isActive: boolean) => {
-    setShowActive(isActive);
   };
 
   return (
@@ -64,17 +72,16 @@ const ProductsPage: React.FC = () => {
       <ProductsTopPanel />
       <CategoriesBlock
         activeCategories={activeCategories}
-        inactiveCategories={inactiveCategories}
         currentCategory={activeCategoryInfo}
-        onClickCategory={setActiveCategoryInfo}
-        showActiveType={showActive}
-        onClickType={onClickCategoryType}
+        onClickCategory={onClickCategory}
       />
 
       <ProductsManager
         categoryInfo={activeCategoryInfo}
         activeCategory={getActiveCategory()}
+        activeSubcategory={activeSubcategory}
         activeProducts={activeProducts}
+        onClickSubcategory={onClickSubcategory}
       />
     </ProductsContainer>
   );
