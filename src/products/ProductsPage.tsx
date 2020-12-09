@@ -4,8 +4,8 @@ import ProductsTopPanel from "./ProductsTopPanel";
 import CategoriesBlock from "./CategoriesBlock";
 import ProductsManager from "./ProductsManager";
 
-import categoriesResponce from "./categoriesResponce.json";
-import productsResponce from "./productsResponce.json";
+import categoriesResponce from "./requests/categoriesResponce.json";
+import productsResponce from "./requests/productsResponce.json";
 import { useHistory } from "react-router-dom";
 
 const ProductsPage: React.FC = () => {
@@ -26,6 +26,7 @@ const ProductsPage: React.FC = () => {
         name: string;
         price: number;
         measure: string;
+        isActive: boolean
       }[]
     | undefined
   >(undefined);

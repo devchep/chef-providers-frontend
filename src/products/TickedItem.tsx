@@ -14,15 +14,17 @@ enum marginTop {
 
 interface TickedItemProps {
   type: "subcategory" | "product";
+  status: boolean;
 }
 
 const TickedItem: React.FC<TickedItemProps> = ({
   type,
+  status
 }: TickedItemProps) => {
   const onPress = () => {}
   return (
     <TickedItemWrapper paddingLeft={paddingLeft[type]} marginTop={marginTop[type]}>
-      <Checkbox onPress={onPress}/>
+      <Checkbox onPress={onPress} status={status}/>
     </TickedItemWrapper>
   );
 };

@@ -5,8 +5,8 @@
       "name": "Морепродукты",
       "amount": 13,
       "subcategories": [
-        { "id": 1, "name": "Креветки", "amount": 5 },
-        { "id": 2, "name": "Мидии", "amount": 5 }
+        { "id": 1, "name": "Креветки", "amount": 5, "isActive": true },
+        { "id": 2, "name": "Мидии", "amount": 5, "isActive": false }
       ]
     },
     {
@@ -14,15 +14,17 @@
       "name": "Мясо",
       "amount": 10,
       "subcategories": [
-        { "id": 1, "name": "Говядина", "amount": 5 },
-        { "id": 2, "name": "Свинина", "amount": 5 }
+        { "id": 1, "name": "Говядина", "amount": 5, "isActive": true },
+        { "id": 2, "name": "Свинина", "amount": 5, "isActive": true }
       ]
     },
     {
       "id": 2,
       "name": "Рыба",
       "amount": 2,
-      "subcategories": [{ "id": 1, "name": "Охлажденное", "amount": 2 }]
+      "subcategories": [
+        { "id": 1, "name": "Охлажденное", "amount": 2, "isActive": true }
+      ]
     },
     { "id": 4, "name": "Молочные продукты", "amount": 0, "subcategories": [] },
     { "id": 5, "name": "Хлеб и выпечка", "amount": 0, "subcategories": [] },

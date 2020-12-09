@@ -10,6 +10,7 @@ interface SubcategoriesListProps {
     id: number;
     name: string;
     amount: number;
+    isActive: boolean;
   }[];
 }
 
@@ -20,7 +21,7 @@ const SubcategoriesList: React.FC<SubcategoriesListProps> = ({
   const categories = subcategories
     ? subcategories.map((item) => (
         <SubcategoryItem key={item.name}>
-          <TickedItem type="subcategory" />
+          <TickedItem type="subcategory" status={item.isActive}/>
           <TouchableOpacity
             onClick={() => onClickSubcategory(item.id, item.name)}
           >
@@ -55,7 +56,7 @@ const SubcategoryItem = styled.li`
   background-color: white;
   border-bottom: 2px solid #dddddd;
   &:first-child {
-    border-top: 2px solid #dddddd;
+    border-top: 2px solid #C9C9C9;
   }
 `;
 
@@ -96,6 +97,8 @@ const SubcategoryMenu = styled.div`
   right: -4vw;
   &:hover {
     cursor: pointer;
+    background-color: #F6F6F6;
+    border-radius: 50%;
   }
 `;
 

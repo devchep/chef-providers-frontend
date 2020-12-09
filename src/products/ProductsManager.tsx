@@ -19,6 +19,7 @@ interface ProductsManagerProps {
         name: string;
         price: number;
         measure: string;
+        isActive: boolean;
       }[]
     | undefined;
 
@@ -33,11 +34,12 @@ interface ProductsManagerProps {
           id: number;
           name: string;
           amount: number;
+          isActive: boolean;
         }[];
       }
     | undefined;
 }
-
+// saveAll -> set of ids if !empty - render button
 const ProductsManager: React.FC<ProductsManagerProps> = ({
   categoryInfo,
   activeCategory,

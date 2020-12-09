@@ -54,6 +54,8 @@ const MenuContainer = styled.div`
   margin-right: -4px;
   &:hover {
     cursor: pointer;
+    background-color: #F6F6F6;
+    border-radius: 50%;
   }
 `;
 

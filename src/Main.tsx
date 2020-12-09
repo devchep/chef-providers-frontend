@@ -2,14 +2,17 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import ProductsPage from "./products/ProductsPage";
 import styled from "styled-components";
+import OrdersPage from "./orders/OrdersPage";
 
 function Main() {
   return (
     <MainContainer>
-      <Route path="/Товары" component={ProductsPage}/>
+      <div id="product-modal"></div>
+      <Route path="/Товары" component={ProductsPage} />
       <Route exact path="/">
         <Redirect to="/Заказы" />
       </Route>
+      <Route path="/Заказы" component={OrdersPage} />
     </MainContainer>
   );
 }
