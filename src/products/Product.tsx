@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TickedItem from "./TickedItem";
 import ItemMenu from "../img/ItemMenu";
 import ProductModal from "./ProductModal";
+import ProductDeleteIcon from "../img/ProductDeleteIcon";
 
 interface ProductProps {
   product: {
@@ -16,13 +17,11 @@ interface ProductProps {
 
 const Product: React.FC<ProductProps> = ({ product }: ProductProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDeleter, setIsOpenDeleter] = useState(false);
   return (
     <ProductItem key={product.id}>
       {isOpen && (
-        <ProductModal
-          product={product}
-          setIsOpen={setIsOpen}
-        ></ProductModal>
+        <ProductModal product={product} setIsOpen={setIsOpen}></ProductModal>
       )}
       <TickedItem type="product" status={product.isActive} />
       <ProductItemInfoContainer onClick={() => setIsOpen(!isOpen)}>
@@ -33,8 +32,12 @@ const Product: React.FC<ProductProps> = ({ product }: ProductProps) => {
           </ProductPrice>
         </ProductItemInfo>
       </ProductItemInfoContainer>
-      <ProductMenu>
-        <ItemMenu />
+      <ProductMenu
+        onClick={() => setIsOpenDeleter(!isOpenDeleter)}
+        onBlur={() => setIsOpenDeleter(false)}
+        isDeleter={isOpenDeleter}
+      >
+        {isOpenDeleter ? <ProductDeleteIcon /> : <ItemMenu />}
       </ProductMenu>
     </ProductItem>
   );
@@ -81,12 +84,16 @@ const ProductItemInfo = styled.div`
 
 const ProductPrice = styled.div``;
 
-const ProductMenu = styled.div`
+const ProductMenu = styled.button<{ isDeleter: boolean }>`
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
   position: absolute;
   right: -4vw;
   &:hover {
     cursor: pointer;
-    background-color: #f6f6f6;
+    background-color: ${(props) => (props.isDeleter ? "#FFE1E1" : "#f6f6f6")};
     border-radius: 50%;
   }
 `;

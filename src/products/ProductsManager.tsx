@@ -39,7 +39,11 @@ interface ProductsManagerProps {
       }
     | undefined;
 }
-// saveAll -> set of ids if !empty - render button
+
+// TODO: add subcategory button in <SubcategoryLabel>
+// TODO: add product button in <WithoutSubcategoryLabel>
+// TODO: add product button in <ProductLabel>
+// TODO: saveAll (set of ids if !empty - render button)
 const ProductsManager: React.FC<ProductsManagerProps> = ({
   categoryInfo,
   activeCategory,
@@ -66,15 +70,11 @@ const ProductsManager: React.FC<ProductsManagerProps> = ({
           />
         </Route>
         <Route path="/Товары/:category/:subcategory">
-          <CurrentCategory
-            categoryName={categoryInfo.name}
-          />
+          <CurrentCategory categoryName={categoryInfo.name} />
         </Route>
         <Switch>
           <Route exact path="/Товары/:category">
-            <SubcategoryLabel>
-              Подкатегории
-            </SubcategoryLabel>
+            <SubcategoryLabel>Подкатегории</SubcategoryLabel>
             {subategories}
             <WithoutSubcategoryLabel>
               Товары без подкатегории
@@ -127,7 +127,7 @@ const ProductLabel = styled.div`
   padding-left: 1%;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   font-size: 1.1em;
   font-weight: bold;
 `;

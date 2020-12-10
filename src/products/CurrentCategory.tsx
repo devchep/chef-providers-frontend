@@ -7,6 +7,7 @@ interface CurrentCategoryProps {
   productsAmount?: number | undefined;
 }
 
+// TODO: delete category?
 const CurrentCategory: React.FC<CurrentCategoryProps> = ({
   categoryName,
   productsAmount,

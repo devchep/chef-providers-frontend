@@ -14,6 +14,7 @@ interface SubcategoriesListProps {
   }[];
 }
 
+// TODO: subcategories edit modal
 const SubcategoriesList: React.FC<SubcategoriesListProps> = ({
   subcategories,
   onClickSubcategory,
@@ -21,7 +22,7 @@ const SubcategoriesList: React.FC<SubcategoriesListProps> = ({
   const categories = subcategories
     ? subcategories.map((item) => (
         <SubcategoryItem key={item.name}>
-          <TickedItem type="subcategory" status={item.isActive}/>
+          <TickedItem type="subcategory" status={item.isActive} />
           <TouchableOpacity
             onClick={() => onClickSubcategory(item.id, item.name)}
           >
@@ -56,7 +57,7 @@ const SubcategoryItem = styled.li`
   background-color: white;
   border-bottom: 2px solid #dddddd;
   &:first-child {
-    border-top: 2px solid #C9C9C9;
+    border-top: 2px solid #c9c9c9;
   }
 `;
 
@@ -83,7 +84,7 @@ const SubcategoryInfo = styled.div`
 const ProductsAmount = styled.div`
   margin-right: 4em;
   font-size: 1em;
-  color: #9D9D9D;
+  color: #9d9d9d;
 `;
 
 const SubcategoryLabel = styled.div`
@@ -97,7 +98,7 @@ const SubcategoryMenu = styled.div`
   right: -4vw;
   &:hover {
     cursor: pointer;
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
     border-radius: 50%;
   }
 `;

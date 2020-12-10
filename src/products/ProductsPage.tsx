@@ -36,14 +36,13 @@ const ProductsPage: React.FC = () => {
     return categories.active.find((x) => x.id === activeCategoryInfo.id);
   };
 
-  //useEffect axios + default route
   useEffect(() => {
     // ajax categoryId -> products
     productsResponce.categoryId === activeCategoryInfo.id
       ? setActiveProducts(productsResponce.products)
       : setActiveProducts(undefined);
     history.replace(`/Товары/${activeCategoryInfo.name}`);
-  }, [history]);
+  }, []);
 
   const onClickCategory = (name: string, id: number) => {
     setActiveCategoryInfo({ name, id });
@@ -54,16 +53,17 @@ const ProductsPage: React.FC = () => {
   };
 
   const onClickSubcategory = (subcategoryId: number, categoryName: string) => {
-    // TODO: post request
+    // ajax categoryId + subcategoryId -> products
     setActiveSubcategory(categoryName);
     setActiveProducts(
       productsResponce.subcategories.find(
-        (x) => x.subcategoryId == subcategoryId
+        (x) => x.subcategoryId === subcategoryId
       )?.products
     );
     history.push(`/Товары/${activeCategoryInfo.name}/${categoryName}`);
   };
 
+  // TODO: add new category to activeCategories
   const onAddCategory = () => {
     alert("addCat");
   };

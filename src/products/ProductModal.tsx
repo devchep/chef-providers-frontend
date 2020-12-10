@@ -15,6 +15,7 @@ interface ProductEditModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+// TODO: add all edit props
 const ProductModal: React.FC<ProductEditModalProps> = ({
   product,
   setIsOpen,
@@ -102,18 +103,6 @@ const ProductInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-`;
-
-const ProductPrice = styled.div``;
-
-const ProductMenu = styled.div`
-  position: absolute;
-  right: -4vw;
-  &:hover {
-    cursor: pointer;
-    background-color: #f6f6f6;
-    border-radius: 50%;
-  }
 `;
 
 export default ProductModal;
