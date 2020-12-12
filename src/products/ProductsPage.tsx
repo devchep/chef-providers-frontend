@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import ProductsTopPanel from "./ProductsTopPanel";
-import CategoriesBlock from "./CategoriesBlock";
+import ProductsTopPanel from "./ProductsTopPanel/ProductsTopPanel";
+import CategoriesBlock from "./CategoriesBlock/CategoriesBlock";
 import ProductsManager from "./ProductsManager";
 
 import categoriesResponce from "./requests/categoriesResponce.json";

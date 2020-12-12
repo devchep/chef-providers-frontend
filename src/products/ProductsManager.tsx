@@ -118,7 +118,7 @@ const SubcategoryLabel = styled.div`
   padding-left: 1%;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  background-color: #fff5d0;
+  background-color: #FFF5D0;
 `;
 
 const ProductLabel = styled.div`

@@ -45,7 +45,7 @@ const ExcelImportButton = styled.button`
   }
   &:hover {
     cursor: pointer;
-    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.25);
   }
 `;
 

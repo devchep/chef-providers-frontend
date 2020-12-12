@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import CategoryMenu from "../img/CategoryMenu";
+import GoBackIcon from "../img/GoBackIcon";
+import { Route, useHistory } from "react-router-dom";
 
 interface CurrentCategoryProps {
   categoryName: string;
@@ -12,11 +14,18 @@ const CurrentCategory: React.FC<CurrentCategoryProps> = ({
   categoryName,
   productsAmount,
 }: CurrentCategoryProps) => {
+  const history = useHistory();
+  const handleGoBack = () => {
+    history.goBack()
+  }
   return (
     <CategoryHeaderContainer>
-      <CategoryNameContainer>
-        <CategoryName>{categoryName}</CategoryName>
-      </CategoryNameContainer>
+      <Route path="/Товары/:category/:subcategory">
+        <GoBack onClick={handleGoBack}>
+          <GoBackIcon />
+        </GoBack>
+      </Route>
+      <CategoryName>{categoryName}</CategoryName>
       {productsAmount !== undefined && (
         <ProductsAmount>Всего {productsAmount} позиций</ProductsAmount>
       )}
@@ -34,9 +43,15 @@ const CategoryHeaderContainer = styled.div`
   justify-content: space-between;
 `;
 
-const CategoryNameContainer = styled.div`
-  align-items: center;
-  display: flex;
+const GoBack = styled.div`
+  position: absolute;
+  top: 3px;
+  left: -2.3rem;
+  &:hover {
+    cursor: pointer;
+    background-color: #f6f6f6;
+    border-radius: 50%;
+  }
 `;
 
 const CategoryName = styled.div`
@@ -55,7 +70,7 @@ const MenuContainer = styled.div`
   margin-right: -4px;
   &:hover {
     cursor: pointer;
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
     border-radius: 50%;
   }
 `;

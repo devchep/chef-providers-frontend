@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import AddCategoryIcon from "../img/AddCategoryIcon";
+import AddCategoryIcon from "../../img/AddCategoryIcon";
+import NewActiveCategory from "./NewActiveCategory";
 
 type Category = { name: string; id: number };
 
@@ -15,6 +16,7 @@ const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
   currentCategory,
   onClickCategory,
 }: CategoriesBlockProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const activeItems = activeCategories.map((item) => (
     <CategoryContainer key={item.name}>
       <CategoryButton
@@ -25,15 +27,11 @@ const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
       </CategoryButton>
     </CategoryContainer>
   ));
-
-  const handleAddCategory = () => {
-    alert("Еще не реализовано");
-  };
-
   return (
     <CategoriesBlockContainer>
       <CategoriesLabel htmlFor="addCategory">Категории</CategoriesLabel>
-      <AddCategoryButton id="addCategory" onClick={handleAddCategory}>
+      {isOpen && <NewActiveCategory onClose={setIsOpen} />}
+      <AddCategoryButton id="addCategory" onClick={() => setIsOpen(!isOpen)}>
         <AddCategoryIcon />
         <ButtonText>Добавить категорию</ButtonText>
       </AddCategoryButton>
@@ -78,7 +76,7 @@ const AddCategoryButton = styled.button`
   }
   &:hover {
     cursor: pointer;
-    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.25);
   }
 `;
 
