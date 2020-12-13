@@ -10,6 +10,7 @@ interface CurrentCategoryProps {
 }
 
 // TODO: delete category?
+// TODO: fix bug when going back
 const CurrentCategory: React.FC<CurrentCategoryProps> = ({
   categoryName,
   productsAmount,

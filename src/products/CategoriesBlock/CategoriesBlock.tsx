@@ -27,10 +27,11 @@ const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
       </CategoryButton>
     </CategoryContainer>
   ));
+
   return (
     <CategoriesBlockContainer>
       <CategoriesLabel htmlFor="addCategory">Категории</CategoriesLabel>
-      {isOpen && <NewActiveCategory onClose={setIsOpen} />}
+      {isOpen && <NewActiveCategory onClose={setIsOpen}/>}
       <AddCategoryButton id="addCategory" onClick={() => setIsOpen(!isOpen)}>
         <AddCategoryIcon />
         <ButtonText>Добавить категорию</ButtonText>

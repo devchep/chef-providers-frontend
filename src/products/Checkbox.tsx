@@ -5,11 +5,11 @@ import TickedBox from "../img/TickedBox";
 
 interface CheckboxProps {
   onPress: () => void;
-  status: boolean;
+  initialStatus: boolean;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ onPress, status }: CheckboxProps) => {
-  const [isTicked, setIsTicked] = useState(status);
+const Checkbox: React.FC<CheckboxProps> = ({ onPress, initialStatus }: CheckboxProps) => {
+  const [isTicked, setIsTicked] = useState(initialStatus);
   const handleClick = () => {
     setIsTicked(!isTicked);
     onPress();

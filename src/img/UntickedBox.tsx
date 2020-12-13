@@ -39,7 +39,7 @@ const UntickedBox = () => (
         <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
         <feColorMatrix
           type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0"
         />
         <feBlend mode="normal" in2="shape" result="effect1_innerShadow" />
       </filter>

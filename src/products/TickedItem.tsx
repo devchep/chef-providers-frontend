@@ -24,7 +24,7 @@ const TickedItem: React.FC<TickedItemProps> = ({
   const onPress = () => {}
   return (
     <TickedItemWrapper paddingLeft={paddingLeft[type]} marginTop={marginTop[type]}>
-      <Checkbox onPress={onPress} status={status}/>
+      <Checkbox onPress={onPress} initialStatus={status}/>
     </TickedItemWrapper>
   );
 };
