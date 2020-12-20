@@ -1,24 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CategoryMenu from "../img/CategoryMenu";
 import GoBackIcon from "../img/GoBackIcon";
-import { Route, useHistory } from "react-router-dom";
+import { Route } from "react-router-dom";
+import { CategoryInfo } from "./types";
+import CategoryDeleteIcon from "../img/CategoryDeleteIcon";
+import EditItemModal from "./EditItemModal";
 
 interface CurrentCategoryProps {
-  categoryName: string;
+  categoryInfo: CategoryInfo;
   productsAmount?: number | undefined;
+  onGoBack: (categoryInfo: CategoryInfo) => void;
 }
 
-// TODO: delete category?
-// TODO: fix bug when going back
+// TODO: Subcategory Route
 const CurrentCategory: React.FC<CurrentCategoryProps> = ({
-  categoryName,
+  categoryInfo,
   productsAmount,
+  onGoBack,
 }: CurrentCategoryProps) => {
-  const history = useHistory();
+  const [isOpenEditor, setIsOpenEditor] = useState(false);
   const handleGoBack = () => {
-    history.goBack()
-  }
+    onGoBack(categoryInfo);
+  };
   return (
     <CategoryHeaderContainer>
       <Route path="/Товары/:category/:subcategory">
@@ -26,11 +30,16 @@ const CurrentCategory: React.FC<CurrentCategoryProps> = ({
           <GoBackIcon />
         </GoBack>
       </Route>
-      <CategoryName>{categoryName}</CategoryName>
+      <CategoryName>{categoryInfo.name}</CategoryName>
       {productsAmount !== undefined && (
         <ProductsAmount>Всего {productsAmount} позиций</ProductsAmount>
       )}
-      <MenuContainer>
+      <MenuContainer
+        onClick={() => setIsOpenEditor(!isOpenEditor)}
+        onBlur={() => setIsOpenEditor(false)}
+        onPointerLeave={() => setIsOpenEditor(false)}
+      >
+        {isOpenEditor ? <EditItemModal isModalOpen={setIsOpenEditor} /> : null}
         <CategoryMenu />
       </MenuContainer>
     </CategoryHeaderContainer>
@@ -65,7 +74,11 @@ const ProductsAmount = styled.div`
   margin-right: 0.5em;
 `;
 
-const MenuContainer = styled.div`
+const MenuContainer = styled.button`
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
   position: absolute;
   right: -4vw;
   margin-right: -4px;

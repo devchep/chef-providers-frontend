@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import CategoryCheckbox from "./CategoryCheckbox";
+import CategoryTickedBox from "../../img/CategoryTickedBox";
+import CategoryUntickedBox from "../../img/CategoryUntickedBox";
 
 interface CategoryProps {
   category: string;
@@ -19,9 +20,9 @@ const Category: React.FC<CategoryProps> = ({
   };
   return (
     <CategoryButton isStaged={isStaged} onClick={handleClick}>
-      <CheckboxContainer>
-        <CategoryCheckbox isTicked={isTicked} onPress={() => {}} />
-      </CheckboxContainer>
+      <CategoryCheckboxContainer onClick={handleClick}>
+        {isTicked ? <CategoryTickedBox /> : <CategoryUntickedBox />}
+      </CategoryCheckboxContainer>
       <CategoryText>{category}</CategoryText>
     </CategoryButton>
   );
@@ -47,9 +48,10 @@ const CategoryText = styled.div`
   margin-left: 0.6em;
 `;
 
-const CheckboxContainer = styled.div`
+const CategoryCheckboxContainer = styled.div`
   margin-top: 2px;
   margin-left: 0.5em;
+  cursor: pointer;
 `;
 
 export default Category;

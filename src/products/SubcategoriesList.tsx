@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import TickedItem from "./TickedItem";
-import ItemMenu from "../img/ItemMenu";
+import Subcategory from "./Subcategory";
 
 interface SubcategoriesListProps {
   onClickSubcategory: (subcategoryId: number, categoryName: string) => void;
@@ -14,93 +13,25 @@ interface SubcategoriesListProps {
   }[];
 }
 
-// TODO: subcategories edit modal
 const SubcategoriesList: React.FC<SubcategoriesListProps> = ({
   subcategories,
   onClickSubcategory,
 }: SubcategoriesListProps) => {
   const categories = subcategories
     ? subcategories.map((item) => (
-        <SubcategoryItem key={item.name}>
-          <TickedItem type="subcategory" status={item.isActive} />
-          <TouchableOpacity
-            onClick={() => onClickSubcategory(item.id, item.name)}
-          >
-            <SubcategoryName>{item.name}</SubcategoryName>
-            <SubcategoryInfo>
-              <ProductsAmount>всего {item.amount} позиций</ProductsAmount>
-              <SubcategoryLabel>подкатегория</SubcategoryLabel>
-            </SubcategoryInfo>
-          </TouchableOpacity>
-          <SubcategoryMenu>
-            <ItemMenu />
-          </SubcategoryMenu>
-        </SubcategoryItem>
+        <Subcategory
+          subcategory={item}
+          onClickSubcategory={onClickSubcategory}
+        />
       ))
     : null;
-  return <SubcategoryContainer>{categories}</SubcategoryContainer>;
+  return <SubcategoriesContainer>{categories}</SubcategoriesContainer>;
 };
 
-const SubcategoryContainer = styled.ul`
+const SubcategoriesContainer = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
-`;
-
-const SubcategoryItem = styled.li`
-  position: relative;
-  height: 4em;
-  width: 50vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  border-bottom: 2px solid #dddddd;
-  &:first-child {
-    border-top: 2px solid #c9c9c9;
-  }
-`;
-
-const TouchableOpacity = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  &:hover {
-    cursor: pointer;
-    background-color: #fff8e0;
-  }
-`;
-
-const SubcategoryName = styled.div`
-  font-size: 1.3em;
-`;
-
-const SubcategoryInfo = styled.div`
-  display: flex;
-`;
-
-const ProductsAmount = styled.div`
-  margin-right: 4em;
-  font-size: 1em;
-  color: #9d9d9d;
-`;
-
-const SubcategoryLabel = styled.div`
-  margin-right: 2em;
-  font-size: 1em;
-  font-weight: bold;
-`;
-
-const SubcategoryMenu = styled.div`
-  position: absolute;
-  right: -4vw;
-  &:hover {
-    cursor: pointer;
-    background-color: #f6f6f6;
-    border-radius: 50%;
-  }
 `;
 
 export default SubcategoriesList;

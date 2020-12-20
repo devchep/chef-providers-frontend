@@ -4,14 +4,12 @@ import SubcategoriesList from "./SubcategoriesList";
 import { Route, Switch } from "react-router-dom";
 import ProductsList from "./ProductsList";
 import CurrentCategory from "./CurrentCategory";
+import {CategoryInfo} from './types'
 
 interface ProductsManagerProps {
   onClickSubcategory: (subcategoryId: number, categoryName: string) => void;
 
-  categoryInfo: {
-    name: string;
-    id: number;
-  };
+  categoryInfo: CategoryInfo
 
   activeProducts:
     | {
@@ -38,8 +36,11 @@ interface ProductsManagerProps {
         }[];
       }
     | undefined;
+
+    onGoBackToCategory: (categoryInfo: CategoryInfo) => void
 }
 
+// TODO: Refactor Interfaces
 // TODO: add subcategory button in <SubcategoryLabel>
 // TODO: add product button in <WithoutSubcategoryLabel>
 // TODO: add product button in <ProductLabel>
@@ -50,6 +51,7 @@ const ProductsManager: React.FC<ProductsManagerProps> = ({
   activeSubcategory,
   activeProducts,
   onClickSubcategory,
+  onGoBackToCategory
 }: ProductsManagerProps) => {
   const subategories = activeCategory ? (
     <SubcategoriesList
@@ -65,12 +67,13 @@ const ProductsManager: React.FC<ProductsManagerProps> = ({
       <ProductsManagerContainer>
         <Route exact path="/Товары/:category">
           <CurrentCategory
-            categoryName={categoryInfo.name}
+            categoryInfo={categoryInfo}
             productsAmount={activeCategory?.amount}
+            onGoBack={onGoBackToCategory}
           />
         </Route>
         <Route path="/Товары/:category/:subcategory">
-          <CurrentCategory categoryName={categoryInfo.name} />
+          <CurrentCategory categoryInfo={categoryInfo} onGoBack={onGoBackToCategory}/>
         </Route>
         <Switch>
           <Route exact path="/Товары/:category">

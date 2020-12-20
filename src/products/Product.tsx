@@ -35,6 +35,7 @@ const Product: React.FC<ProductProps> = ({ product }: ProductProps) => {
       <ProductMenu
         onClick={() => setIsOpenDeleter(!isOpenDeleter)}
         onBlur={() => setIsOpenDeleter(false)}
+        onPointerLeave={() => setIsOpenDeleter(false)}
         isDeleter={isOpenDeleter}
       >
         {isOpenDeleter ? <ProductDeleteIcon /> : <ItemMenu />}

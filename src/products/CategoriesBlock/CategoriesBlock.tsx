@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import AddCategoryIcon from "../../img/AddCategoryIcon";
-import NewActiveCategory from "./NewActiveCategory";
+import NewActiveCategoryModal from "./NewActiveCategoryModal";
+import { CategoryInfo } from "../types";
 
 type Category = { name: string; id: number };
 
 interface CategoriesBlockProps {
   activeCategories: Category[];
   currentCategory: Category;
-  onClickCategory: (name: string, id: number) => void;
+  onClickCategory: (categoryInfo: CategoryInfo) => void;
 }
 
 const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
@@ -21,7 +22,7 @@ const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
     <CategoryContainer key={item.name}>
       <CategoryButton
         selected={item.id === currentCategory.id}
-        onClick={() => onClickCategory(item.name, item.id)}
+        onClick={() => onClickCategory(item)}
       >
         <CategoryButtonText>{item.name}</CategoryButtonText>
       </CategoryButton>
@@ -31,7 +32,7 @@ const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
   return (
     <CategoriesBlockContainer>
       <CategoriesLabel htmlFor="addCategory">Категории</CategoriesLabel>
-      {isOpen && <NewActiveCategory onClose={setIsOpen}/>}
+      {isOpen && <NewActiveCategoryModal onClose={setIsOpen}/>}
       <AddCategoryButton id="addCategory" onClick={() => setIsOpen(!isOpen)}>
         <AddCategoryIcon />
         <ButtonText>Добавить категорию</ButtonText>

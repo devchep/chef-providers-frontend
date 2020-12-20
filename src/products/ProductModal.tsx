@@ -16,6 +16,7 @@ interface ProductEditModalProps {
 }
 
 // TODO: add all edit props
+// TODO: useeffect saveAll()
 const ProductModal: React.FC<ProductEditModalProps> = ({
   product,
   setIsOpen,

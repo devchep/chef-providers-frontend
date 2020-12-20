@@ -7,6 +7,7 @@ import ProductsManager from "./ProductsManager";
 import categoriesResponce from "./requests/categoriesResponce.json";
 import productsResponce from "./requests/productsResponce.json";
 import { useHistory } from "react-router-dom";
+import { CategoryInfo } from "./types";
 
 const ProductsPage: React.FC = () => {
   let history = useHistory();
@@ -16,7 +17,7 @@ const ProductsPage: React.FC = () => {
       return { name: obj.name, id: obj.id };
     })
   );
-  const [activeCategoryInfo, setActiveCategoryInfo] = useState({
+  const [activeCategoryInfo, setActiveCategoryInfo] = useState<CategoryInfo>({
     name: categoriesResponce.active[0].name,
     id: categoriesResponce.active[0].id,
   });
@@ -44,12 +45,12 @@ const ProductsPage: React.FC = () => {
     history.replace(`/Товары/${activeCategoryInfo.name}`);
   }, []);
 
-  const onClickCategory = (name: string, id: number) => {
-    setActiveCategoryInfo({ name, id });
-    productsResponce.categoryId === id
+  const onClickCategory = (categoryInfo: CategoryInfo) => {
+    setActiveCategoryInfo(categoryInfo);
+    productsResponce.categoryId === categoryInfo.id
       ? setActiveProducts(productsResponce.products)
       : setActiveProducts(undefined);
-    history.replace(`/Товары/${name}`);
+    history.replace(`/Товары/${categoryInfo.name}`);
   };
 
   const onClickSubcategory = (subcategoryId: number, categoryName: string) => {
@@ -83,6 +84,7 @@ const ProductsPage: React.FC = () => {
         activeSubcategory={activeSubcategory}
         activeProducts={activeProducts}
         onClickSubcategory={onClickSubcategory}
+        onGoBackToCategory={onClickCategory}
       />
     </ProductsContainer>
   );
