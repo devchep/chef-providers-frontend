@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import AddCategoryIcon from "../../img/AddCategoryIcon";
 import NewActiveCategoryModal from "./NewActiveCategoryModal";
-import { CategoryInfo } from "../types";
-
-type Category = { name: string; id: number };
+import { CategoryCard, CategoryInfo } from "../types";
 
 interface CategoriesBlockProps {
-  activeCategories: Category[];
-  currentCategory: Category;
-  onClickCategory: (categoryInfo: CategoryInfo) => void;
+  activeCategories: CategoryCard[];
+  currentCategory: CategoryInfo | undefined;
+  onClickCategory: (CategoryCard: CategoryCard) => void;
 }
 
 const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
@@ -21,7 +19,7 @@ const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
   const activeItems = activeCategories.map((item) => (
     <CategoryContainer key={item.name}>
       <CategoryButton
-        selected={item.id === currentCategory.id}
+        selected={item.id === currentCategory?.id}
         onClick={() => onClickCategory(item)}
       >
         <CategoryButtonText>{item.name}</CategoryButtonText>

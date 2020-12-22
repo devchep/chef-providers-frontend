@@ -3,15 +3,10 @@ import styled from "styled-components";
 import ReactDOM from "react-dom";
 import ProductCancelEdit from "../img/ProductCancelEdit";
 import ProductModalProp from "./ProductModalTextProp";
+import { ProductInfo } from "./types";
 
 interface ProductEditModalProps {
-  product: {
-    id: number;
-    name: string;
-    price: number;
-    measure: string;
-    isActive: boolean;
-  };
+  product: ProductInfo;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

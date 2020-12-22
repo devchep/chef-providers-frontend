@@ -2,18 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import TickedItem from "./TickedItem";
 import ItemMenu from "../img/ItemMenu";
-import EditItemModal from "./EditItemModal";
 import DeleteItemIcon from "../img/DeleteItemIcon";
+import { SubcategoryInfo } from "./types";
 
 interface SubcategoryProps {
-  onClickSubcategory: (subcategoryId: number, categoryName: string) => void;
-
-  subcategory: {
-    id: number;
-    name: string;
-    amount: number;
-    isActive: boolean;
-  };
+  onClickSubcategory: (subcategoryInfo: SubcategoryInfo) => void;
+  subcategory: SubcategoryInfo;
 }
 
 const Subcategory: React.FC<SubcategoryProps> = ({
@@ -25,13 +19,13 @@ const Subcategory: React.FC<SubcategoryProps> = ({
     <SubcategoryItem key={subcategory.name}>
       <TickedItem type="subcategory" status={subcategory.isActive} />
       <TouchableOpacity
-        onClick={() => onClickSubcategory(subcategory.id, subcategory.name)}
+        onClick={() => onClickSubcategory(subcategory)}
       >
         <SubcategoryName>{subcategory.name}</SubcategoryName>
-        <SubcategoryInfo>
+        <SubcategoryInfoContainer>
           <ProductsAmount>всего {subcategory.amount} позиций</ProductsAmount>
           <SubcategoryLabel>подкатегория</SubcategoryLabel>
-        </SubcategoryInfo>
+        </SubcategoryInfoContainer>
       </TouchableOpacity>
       <SubcategoryMenu
         onClick={() => setIsOpenDeleter(true)}
@@ -75,7 +69,7 @@ const SubcategoryName = styled.div`
   font-size: 1.3em;
 `;
 
-const SubcategoryInfo = styled.div`
+const SubcategoryInfoContainer = styled.div`
   display: flex;
 `;
 

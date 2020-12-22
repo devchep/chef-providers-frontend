@@ -6,64 +6,59 @@ import ProductsManager from "./ProductsManager";
 
 import categoriesResponce from "./requests/categoriesResponce.json";
 import productsResponce from "./requests/productsResponce.json";
+import categoryProductsResponce from "./requests/categoryProductsResponce.json";
 import { useHistory } from "react-router-dom";
-import { CategoryInfo } from "./types";
+import { CategoryCard, CategoryInfo, SubcategoryInfo, ProductInfo } from "./types";
 
 const ProductsPage: React.FC = () => {
   let history = useHistory();
   const [categories, setCategories] = useState(categoriesResponce);
-  const [activeCategories, setActiveCategories] = useState(
+  const [activeCategories, setActiveCategories] = useState<CategoryCard[]>(
     categories.active.map((obj) => {
       return { name: obj.name, id: obj.id };
     })
   );
-  const [activeCategoryInfo, setActiveCategoryInfo] = useState<CategoryInfo>({
-    name: categoriesResponce.active[0].name,
-    id: categoriesResponce.active[0].id,
-  });
+  const [activeCategoryInfo, setActiveCategoryInfo] = useState<CategoryInfo | undefined>(
+    categoriesResponce.active[0]
+  );
   const [activeProducts, setActiveProducts] = useState<
-    | {
-        id: number;
-        name: string;
-        price: number;
-        measure: string;
-        isActive: boolean
-      }[]
-    | undefined
+    ProductInfo[] | undefined
   >(undefined);
-  const [activeSubcategory, setActiveSubcategory] = useState("");
+  const [activeSubcategory, setActiveSubcategory] = useState<
+    SubcategoryInfo | undefined
+  >(undefined);
 
-  const getActiveCategory = () => {
-    return categories.active.find((x) => x.id === activeCategoryInfo.id);
+  // ajax category -> CategoryInfo
+  const getActiveCategory = (categoryId: number) => {
+    return categories.active.find((x) => x.id === categoryId);
   };
 
   useEffect(() => {
-    // ajax categoryId -> products
-    productsResponce.categoryId === activeCategoryInfo.id
-      ? setActiveProducts(productsResponce.products)
+    // ajax categoryId -> ProductInfo list
+    activeCategoryInfo?.id === 3
+      ? setActiveProducts(categoryProductsResponce.products)
       : setActiveProducts(undefined);
-    history.replace(`/Товары/${activeCategoryInfo.name}`);
+    history.replace(`/Товары/${activeCategoryInfo?.name}`);
   }, []);
 
-  const onClickCategory = (categoryInfo: CategoryInfo) => {
-    setActiveCategoryInfo(categoryInfo);
-    productsResponce.categoryId === categoryInfo.id
-      ? setActiveProducts(productsResponce.products)
+  const onClickCategory = (categoryCard: CategoryCard) => {
+    setActiveCategoryInfo(getActiveCategory(categoryCard.id));
+    categoryCard.id === 3
+      ? setActiveProducts(categoryProductsResponce.products)
       : setActiveProducts(undefined);
-    history.replace(`/Товары/${categoryInfo.name}`);
+    history.replace(`/Товары/${categoryCard.name}`);
   };
 
-  const onClickSubcategory = (subcategoryId: number, categoryName: string) => {
-    // ajax categoryId + subcategoryId -> products
-    setActiveSubcategory(categoryName);
+  const onClickSubcategory = (subcategoryInfo: SubcategoryInfo) => {
+    // ajax categoryId + subcategoryId -> ProductInfo list
+    setActiveSubcategory(subcategoryInfo);
     setActiveProducts(
       productsResponce.subcategories.find(
-        (x) => x.subcategoryId === subcategoryId
+        (x) => x.subcategoryId === subcategoryInfo.id
       )?.products
     );
-    history.push(`/Товары/${activeCategoryInfo.name}/${categoryName}`);
+    history.push(`/Товары/${activeCategoryInfo?.name}/${subcategoryInfo.name}`);
   };
-
   // TODO: add new category to activeCategories
   const onAddCategory = () => {
     alert("addCat");
@@ -79,8 +74,7 @@ const ProductsPage: React.FC = () => {
       />
 
       <ProductsManager
-        categoryInfo={activeCategoryInfo}
-        activeCategory={getActiveCategory()}
+        activeCategory={activeCategoryInfo}
         activeSubcategory={activeSubcategory}
         activeProducts={activeProducts}
         onClickSubcategory={onClickSubcategory}

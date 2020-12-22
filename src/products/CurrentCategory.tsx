@@ -3,34 +3,40 @@ import styled from "styled-components";
 import CategoryMenu from "../img/CategoryMenu";
 import GoBackIcon from "../img/GoBackIcon";
 import { Route } from "react-router-dom";
-import { CategoryInfo } from "./types";
-import CategoryDeleteIcon from "../img/CategoryDeleteIcon";
+import { SubcategoryInfo, CategoryInfo } from "./types";
 import EditItemModal from "./EditItemModal";
 
 interface CurrentCategoryProps {
-  categoryInfo: CategoryInfo;
+  categoryName: string | undefined;
   productsAmount?: number | undefined;
-  onGoBack: (categoryInfo: CategoryInfo) => void;
+  onGoBack: () => void;
+  subcategory?: SubcategoryInfo;
 }
 
 // TODO: Subcategory Route
 const CurrentCategory: React.FC<CurrentCategoryProps> = ({
-  categoryInfo,
+  categoryName,
   productsAmount,
   onGoBack,
+  subcategory = undefined,
 }: CurrentCategoryProps) => {
   const [isOpenEditor, setIsOpenEditor] = useState(false);
-  const handleGoBack = () => {
-    onGoBack(categoryInfo);
-  };
   return (
     <CategoryHeaderContainer>
       <Route path="/Товары/:category/:subcategory">
-        <GoBack onClick={handleGoBack}>
+        <GoBack onClick={onGoBack}>
           <GoBackIcon />
         </GoBack>
       </Route>
-      <CategoryName>{categoryInfo.name}</CategoryName>
+      <Route path="/Товары/:category/:subcategory">
+        <CategoryName>
+          {categoryName}
+          <SubcategoryName>/{subcategory?.name}</SubcategoryName>
+        </CategoryName>
+      </Route>
+      <Route exact path="/Товары/:category">
+        <CategoryName>{categoryName}</CategoryName>
+      </Route>
       {productsAmount !== undefined && (
         <ProductsAmount>Всего {productsAmount} позиций</ProductsAmount>
       )}
@@ -65,8 +71,15 @@ const GoBack = styled.div`
 `;
 
 const CategoryName = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 1.8em;
   font-weight: bold;
+`;
+
+const SubcategoryName = styled.div`
+  font-size: 1em;
+  font-weight:normal;
 `;
 
 const ProductsAmount = styled.div`

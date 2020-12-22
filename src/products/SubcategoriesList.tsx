@@ -1,16 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Subcategory from "./Subcategory";
+import { SubcategoryInfo } from "./types";
 
 interface SubcategoriesListProps {
-  onClickSubcategory: (subcategoryId: number, categoryName: string) => void;
-
-  subcategories: {
-    id: number;
-    name: string;
-    amount: number;
-    isActive: boolean;
-  }[];
+  onClickSubcategory: (subcategoryInfo: SubcategoryInfo) => void;
+  subcategories: SubcategoryInfo[];
 }
 
 const SubcategoriesList: React.FC<SubcategoriesListProps> = ({

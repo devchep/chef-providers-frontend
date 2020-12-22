@@ -4,56 +4,29 @@ import SubcategoriesList from "./SubcategoriesList";
 import { Route, Switch } from "react-router-dom";
 import ProductsList from "./ProductsList";
 import CurrentCategory from "./CurrentCategory";
-import { CategoryInfo } from "./types";
+import { CategoryInfo, SubcategoryInfo, ProductInfo } from "./types";
 import AddItemIcon from "../img/AddItemIcon";
 
 interface ProductsManagerProps {
-  onClickSubcategory: (subcategoryId: number, categoryName: string) => void;
-
-  categoryInfo: CategoryInfo;
-
-  activeProducts:
-    | {
-        id: number;
-        name: string;
-        price: number;
-        measure: string;
-        isActive: boolean;
-      }[]
-    | undefined;
-
-  activeSubcategory: string;
-
-  activeCategory:
-    | {
-        id: number;
-        name: string;
-        amount: number;
-        subcategories: {
-          id: number;
-          name: string;
-          amount: number;
-          isActive: boolean;
-        }[];
-      }
-    | undefined;
-
+  onClickSubcategory: (subcategoryInfo: SubcategoryInfo) => void;
+  activeProducts: ProductInfo[] | undefined;
+  activeSubcategory: SubcategoryInfo | undefined;
+  activeCategory: CategoryInfo | undefined;
   onGoBackToCategory: (categoryInfo: CategoryInfo) => void;
 }
 
 // TODO: Refactor Interfaces
-// TODO: add subcategory button in <SubcategoryLabel>
-// TODO: add product button in <WithoutSubcategoryLabel>
-// TODO: add product button in <ProductLabel>
 // TODO: saveAll (set of ids if !empty - render button)
 const ProductsManager: React.FC<ProductsManagerProps> = ({
-  categoryInfo,
   activeCategory,
   activeSubcategory,
   activeProducts,
   onClickSubcategory,
   onGoBackToCategory,
 }: ProductsManagerProps) => {
+  const onGoBack = () => {
+    if (activeCategory) onGoBackToCategory(activeCategory);
+  };
   const subategories = activeCategory ? (
     <SubcategoriesList
       subcategories={activeCategory.subcategories}
@@ -68,15 +41,16 @@ const ProductsManager: React.FC<ProductsManagerProps> = ({
       <ProductsManagerContainer>
         <Route exact path="/Товары/:category">
           <CurrentCategory
-            categoryInfo={categoryInfo}
+            categoryName={activeCategory?.name}
             productsAmount={activeCategory?.amount}
-            onGoBack={onGoBackToCategory}
+            onGoBack={onGoBack}
           />
         </Route>
         <Route path="/Товары/:category/:subcategory">
           <CurrentCategory
-            categoryInfo={categoryInfo}
-            onGoBack={onGoBackToCategory}
+            categoryName={activeCategory?.name}
+            onGoBack={onGoBack}
+            subcategory={activeSubcategory}
           />
         </Route>
         <Switch>
@@ -91,20 +65,31 @@ const ProductsManager: React.FC<ProductsManagerProps> = ({
             {subategories}
             <SubcategoryLabel color="#EEEEEE">
               Товары без подкатегории
-              <LabelAddButton color="#DBDBDB">
-                <AddItemIcon />
-                <AddButtonText>добавить</AddButtonText>
-              </LabelAddButton>
+              <SubcategoryInfoContainer>
+                {activeProducts?.length !== undefined && (
+                  <ProductsAmount>
+                    всего {activeProducts.length} позиций
+                  </ProductsAmount>
+                )}
+                <LabelAddButton color="#DBDBDB">
+                  <AddItemIcon />
+                  <AddButtonText>добавить</AddButtonText>
+                </LabelAddButton>
+              </SubcategoryInfoContainer>
             </SubcategoryLabel>
             {products}
           </Route>
           <Route path="/Товары/:category/:subcategory">
             <ProductLabel>
-              {activeSubcategory}
               <LabelAddButton color="#DBDBDB">
                 <AddItemIcon />
                 <AddButtonText>добавить</AddButtonText>
               </LabelAddButton>
+              {activeProducts?.length !== undefined && (
+                <SubcategoryAmount>
+                  Всего {activeProducts.length} позиций
+                </SubcategoryAmount>
+              )}
             </ProductLabel>
             {products}
           </Route>
@@ -138,13 +123,34 @@ const SubcategoryLabel = styled.div<{ color: string }>`
   background-color: ${(props) => props.color};
 `;
 
+const SubcategoryInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+`;
+
+const ProductsAmount = styled.div`
+  color: #949494;
+  margin-right: 0.5em;
+  font-weight: normal;
+  font-size: 1rem;
+  margin-right: 4em;
+`;
+
+const SubcategoryAmount = styled.div`
+  color: #949494;
+  margin-right: 0.5em;
+  font-weight: normal;
+  font-size: 1rem;
+`;
+
 const LabelAddButton = styled.div<{ color: string }>`
   cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 1.4em;
+  padding-right: 1.4em;
   height: 100%;
   background-color: ${(props) => props.color};
   &:hover {
@@ -164,10 +170,9 @@ const ProductLabel = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 99%;
+  width: 100%;
   height: 2.2em;
   margin-top: 1em;
-  padding-left: 1%;
   background-color: #eeeeee;
   font-size: 1.1em;
   font-weight: bold;

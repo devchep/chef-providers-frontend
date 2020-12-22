@@ -1,0 +1,26 @@
+{
+  "subcategoryId": 1,
+  "products": [
+    {
+      "id": 1,
+      "name": "Креветки тигровые с головой",
+      "price": 1337,
+      "measure": "кг",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "name": "Креветки тигровые с головой",
+      "price": 1337,
+      "measure": "кг",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "name": "Креветки тигровые с головой",
+      "price": 1337,
+      "measure": "кг",
+      "isActive": true
+    }
+  ]
+}

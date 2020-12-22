@@ -4,15 +4,10 @@ import TickedItem from "./TickedItem";
 import ItemMenu from "../img/ItemMenu";
 import ProductModal from "./ProductModal";
 import ProductDeleteIcon from "../img/ProductDeleteIcon";
+import { ProductInfo } from "./types";
 
 interface ProductProps {
-  product: {
-    id: number;
-    name: string;
-    price: number;
-    measure: string;
-    isActive: boolean;
-  };
+  product: ProductInfo;
 }
 
 const Product: React.FC<ProductProps> = ({ product }: ProductProps) => {
