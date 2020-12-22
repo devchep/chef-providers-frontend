@@ -9,7 +9,7 @@ interface ProductModalPropProps {
   big?: boolean;
 }
 
-const ProductModalProp: React.FC<ProductModalPropProps> = ({
+const ProductModalTextProp: React.FC<ProductModalPropProps> = ({
   propName,
   property,
   onChangeProperty,
@@ -84,4 +84,4 @@ const ProductDescriptionTextArea = styled.textarea`
   }
 `;
 
-export default ProductModalProp;
+export default ProductModalTextProp;

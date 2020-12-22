@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ReactDOM from "react-dom";
 import ProductCancelEdit from "../img/ProductCancelEdit";
-import ProductModalProp from "./ProductModalProp";
+import ProductModalProp from "./ProductModalTextProp";
 
 interface ProductEditModalProps {
   product: {
@@ -16,13 +16,38 @@ interface ProductEditModalProps {
 }
 
 // TODO: add all edit props
-// TODO: useeffect saveAll()
+// TODO: update state on saveAll
 const ProductModal: React.FC<ProductEditModalProps> = ({
   product,
   setIsOpen,
 }: ProductEditModalProps) => {
   const [inputName, setInputName] = useState(product.name);
-  const [inputDesc, setInputDesc] = useState('');
+  const [inputDesc, setInputDesc] = useState("");
+  const [inputPrice, setInputPrice] = useState(product.price);
+  const [inputMeasure, setInputMeasure] = useState(product.measure);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const hasChanges = () => {
+    return (
+      product.name !== inputName ||
+      product.price !== inputPrice ||
+      product.measure !== inputMeasure
+    );
+  };
+
+  useEffect(() => {
+    if (hasChanges()) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputName, inputPrice, inputMeasure]);
+
+  const saveAll = () => {
+    console.log("saveAll");
+    setIsOpen(false);
+  };
+
   const productModal = document.getElementById("product-modal") as HTMLElement;
   return ReactDOM.createPortal(
     <ProductModalContainer>
@@ -47,6 +72,13 @@ const ProductModal: React.FC<ProductEditModalProps> = ({
             big
           />
         </ProductInfoContainer>
+        <SaveButtonContainer
+          isDisabled={isButtonDisabled}
+          onClick={saveAll}
+          disabled={isButtonDisabled}
+        >
+          Сохранить
+        </SaveButtonContainer>
       </ProductInfoModal>
     </ProductModalContainer>,
     productModal
@@ -64,8 +96,11 @@ const ProductModalContainer = styled.div`
 `;
 
 const ProductInfoModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   position: relative;
-  top: 52%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
@@ -78,7 +113,7 @@ const ProductModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   padding-top: 0.7em;
-  padding-bottom: 1.5em;
+  padding-bottom: 1.2em;
 `;
 
 const ProductHeaderName = styled.div`
@@ -100,10 +135,29 @@ const CancelEditButton = styled.button`
 `;
 
 const ProductInfoContainer = styled.div`
+  height: 100%;
   margin-left: 2.5rem;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+`;
+
+const SaveButtonContainer = styled.button<{ isDisabled: boolean }>`
+  border: none;
+  padding: 0;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 12vh;
+  border-top: 1px solid #eeeeee;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: ${(props) => (props.isDisabled ? "#B7B7B7" : "#000")};
+  background-color: ${(props) => (props.isDisabled ? "#F5F5F5" : "#FBE28B")};
+  cursor: ${(props) => (props.isDisabled ? "default" : "pointer")};
+  border-radius: 0px 0px 20px 20px;
 `;
 
 export default ProductModal;

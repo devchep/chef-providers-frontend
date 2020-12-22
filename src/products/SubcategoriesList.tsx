@@ -20,6 +20,7 @@ const SubcategoriesList: React.FC<SubcategoriesListProps> = ({
   const categories = subcategories
     ? subcategories.map((item) => (
         <Subcategory
+          key={item.id}
           subcategory={item}
           onClickSubcategory={onClickSubcategory}
         />

@@ -6,15 +6,18 @@ import CategoryUntickedBox from "../../img/CategoryUntickedBox";
 interface CategoryProps {
   category: string;
   isActive: boolean;
+  handleChange: (category: string) => void
 }
 
 const Category: React.FC<CategoryProps> = ({
   category,
   isActive,
+  handleChange
 }: CategoryProps) => {
   const [isTicked, setIsTicked] = useState(isActive);
   const [isStaged, setIsStaged] = useState(false);
   const handleClick = () => {
+    handleChange(category)
     setIsTicked(!isTicked);
     setIsStaged(!isStaged);
   };

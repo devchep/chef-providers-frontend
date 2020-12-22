@@ -8,36 +8,86 @@ interface ProductEditModalProps {
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-// TODO: useEffect on category stage
+// TODO: update state on saveAll
 const NewActiveCategory: React.FC<ProductEditModalProps> = ({
   onClose,
 }: ProductEditModalProps) => {
-  const [pickedCategoriesList, setPickedCategoriesList] = useState();
-  const [allCategories, setAllCategories] = useState(<CategoriesContainer/>);
+  const [pickedCategoriesSet, setPickedCategoriesSet] = useState(
+    new Set<string>()
+  );
+  const [allCategories, setAllCategories] = useState(<CategoriesContainer />);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  const handleChange = (category: string) => {
+    if (pickedCategoriesSet.has(category)) {
+      pickedCategoriesSet.delete(category);
+      setPickedCategoriesSet(new Set(pickedCategoriesSet));
+    } else {
+      pickedCategoriesSet.add(category);
+      setPickedCategoriesSet(new Set(pickedCategoriesSet));
+    }
+  };
+
+  const saveAll = () => {
+    console.log("saveAll");
+    onClose(false);
+  };
+
   useEffect(() => {
     document.getElementById("add-new-category")?.focus();
     setAllCategories(
       <CategoriesContainer>
         <ActiveCategoriesLabel>НЕАКТИВНЫЕ</ActiveCategoriesLabel>
         {categoriesResponce.inactive.map((item) => (
-          <Category key={item.id} category={item.name} isActive={false} />
+          <Category
+            key={item.id}
+            category={item.name}
+            isActive={false}
+            handleChange={handleChange}
+          />
         ))}
         <ActiveCategoriesLabel>АКТИВНЫЕ</ActiveCategoriesLabel>
         {categoriesResponce.active.map((item) => (
-          <Category key={item.id} category={item.name} isActive={true} />
+          <Category
+            key={item.id}
+            category={item.name}
+            isActive={true}
+            handleChange={handleChange}
+          />
         ))}
       </CategoriesContainer>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (pickedCategoriesSet.size) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [pickedCategoriesSet]);
+
   return (
-    <NewActiveCategoryContainer id="add-new-category" tabIndex={1} onBlur={() => onClose(false)}>
+    <NewActiveCategoryContainer
+      id="add-new-category"
+      tabIndex={1}
+      onBlur={() => onClose(false)}
+    >
       <HeaderContainer>
         <CancelEditButton onClick={() => onClose(false)}>
           <CategoryAddCancel />
         </CancelEditButton>
       </HeaderContainer>
       {allCategories}
-      <CategoryButton isActive>Сохранить</CategoryButton>
+      <CategoryButton
+        isDisabled={isButtonDisabled}
+        onClick={saveAll}
+        disabled={isButtonDisabled}
+        onMouseDown={(event) => event.preventDefault()}
+      >
+        Сохранить
+      </CategoryButton>
     </NewActiveCategoryContainer>
   );
 };
@@ -45,6 +95,7 @@ const NewActiveCategory: React.FC<ProductEditModalProps> = ({
 const NewActiveCategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   position: fixed;
   left: 9vw;
   bottom: 0;
@@ -121,22 +172,20 @@ const ActiveCategoriesLabel = styled.div`
   font-size: 0.9em;
   padding-top: 4px;
   padding-bottom: 4px;
-  border-bottom: 2px solid #EEEEEE;
+  border-bottom: 2px solid #eeeeee;
 `;
 
-const CategoryButton = styled.button<{ isActive: boolean }>`
+const CategoryButton = styled.button<{ isDisabled: boolean }>`
   width: 100%;
   height: 10%;
   outline: none;
   border: none;
-  background-color: #FBE28B;
   border-radius: 0px 0px 10px 10px;
-  color: black;
   font-weight: 600;
   font-size: 0.9em;
-  &:hover {
-    cursor: pointer;
-  }
+  color: ${(props) => (props.isDisabled ? "#B7B7B7" : "#000")};
+  background-color: ${(props) => (props.isDisabled ? "#F5F5F5" : "#FBE28B")};
+  cursor: ${(props) => (props.isDisabled ? "default" : "pointer")};
 `;
 
 export default NewActiveCategory;

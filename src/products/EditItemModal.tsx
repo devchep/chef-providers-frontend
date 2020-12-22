@@ -7,6 +7,7 @@ interface ProductEditModalProps {
   isModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+// TODO: Edit/Delete bp
 const EditItemModal: React.FC<ProductEditModalProps> = ({
   isModalOpen,
 }: ProductEditModalProps) => {

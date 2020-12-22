@@ -4,12 +4,13 @@ import SubcategoriesList from "./SubcategoriesList";
 import { Route, Switch } from "react-router-dom";
 import ProductsList from "./ProductsList";
 import CurrentCategory from "./CurrentCategory";
-import {CategoryInfo} from './types'
+import { CategoryInfo } from "./types";
+import AddItemIcon from "../img/AddItemIcon";
 
 interface ProductsManagerProps {
   onClickSubcategory: (subcategoryId: number, categoryName: string) => void;
 
-  categoryInfo: CategoryInfo
+  categoryInfo: CategoryInfo;
 
   activeProducts:
     | {
@@ -37,7 +38,7 @@ interface ProductsManagerProps {
       }
     | undefined;
 
-    onGoBackToCategory: (categoryInfo: CategoryInfo) => void
+  onGoBackToCategory: (categoryInfo: CategoryInfo) => void;
 }
 
 // TODO: Refactor Interfaces
@@ -51,7 +52,7 @@ const ProductsManager: React.FC<ProductsManagerProps> = ({
   activeSubcategory,
   activeProducts,
   onClickSubcategory,
-  onGoBackToCategory
+  onGoBackToCategory,
 }: ProductsManagerProps) => {
   const subategories = activeCategory ? (
     <SubcategoriesList
@@ -73,19 +74,38 @@ const ProductsManager: React.FC<ProductsManagerProps> = ({
           />
         </Route>
         <Route path="/Товары/:category/:subcategory">
-          <CurrentCategory categoryInfo={categoryInfo} onGoBack={onGoBackToCategory}/>
+          <CurrentCategory
+            categoryInfo={categoryInfo}
+            onGoBack={onGoBackToCategory}
+          />
         </Route>
         <Switch>
           <Route exact path="/Товары/:category">
-            <SubcategoryLabel>Подкатегории</SubcategoryLabel>
+            <SubcategoryLabel color="#FFF5D0">
+              Подкатегории
+              <LabelAddButton color="#FFE380">
+                <AddItemIcon />
+                <AddButtonText>добавить</AddButtonText>
+              </LabelAddButton>
+            </SubcategoryLabel>
             {subategories}
-            <WithoutSubcategoryLabel>
+            <SubcategoryLabel color="#EEEEEE">
               Товары без подкатегории
-            </WithoutSubcategoryLabel>
+              <LabelAddButton color="#DBDBDB">
+                <AddItemIcon />
+                <AddButtonText>добавить</AddButtonText>
+              </LabelAddButton>
+            </SubcategoryLabel>
             {products}
           </Route>
           <Route path="/Товары/:category/:subcategory">
-            <ProductLabel>{activeSubcategory}</ProductLabel>
+            <ProductLabel>
+              {activeSubcategory}
+              <LabelAddButton color="#DBDBDB">
+                <AddItemIcon />
+                <AddButtonText>добавить</AddButtonText>
+              </LabelAddButton>
+            </ProductLabel>
             {products}
           </Route>
         </Switch>
@@ -106,30 +126,48 @@ const ProductsManagerContainer = styled.div`
   width: 50vw;
 `;
 
-const WithoutSubcategoryLabel = styled.div`
+const SubcategoryLabel = styled.div<{ color: string }>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   width: 99%;
+  height: 2.2em;
   margin-top: 1em;
   padding-left: 1%;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  background-color: #eeeeee;
+  background-color: ${(props) => props.color};
 `;
 
-const SubcategoryLabel = styled.div`
-  width: 99%;
-  margin-top: 1em;
-  padding-left: 1%;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  background-color: #FFF5D0;
+const LabelAddButton = styled.div<{ color: string }>`
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  height: 100%;
+  background-color: ${(props) => props.color};
+  &:hover {
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+  }
+`;
+
+const AddButtonText = styled.div`
+  margin-left: 0.5em;
+  margin-bottom: 2px;
+  font-size: 1em;
+  font-weight: normal;
 `;
 
 const ProductLabel = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   width: 99%;
+  height: 2.2em;
   margin-top: 1em;
   padding-left: 1%;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
   background-color: #eeeeee;
   font-size: 1.1em;
   font-weight: bold;
