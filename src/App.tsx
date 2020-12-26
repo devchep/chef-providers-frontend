@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "./header/Header";
 import Main from "./Main";
+import SignInScreen from "./auth/SignInScreen";
 
 function App() {
-  return (
+  const [user, setUser] = useState('');
+  return user ? (
     <AppContainer>
       <Header />
       <Main />
     </AppContainer>
+  ) : (
+    <SignInScreen setUser={setUser}/>
   );
 }
 
@@ -18,7 +22,7 @@ const AppContainer = styled.div`
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
 `;
 
 export default App;
