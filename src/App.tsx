@@ -5,7 +5,7 @@ import Main from "./Main";
 import SignInScreen from "./auth/SignInScreen";
 
 function App() {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState('fefw');
   return user ? (
     <AppContainer>
       <Header />

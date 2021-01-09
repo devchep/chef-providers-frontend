@@ -33,10 +33,11 @@ const SignInScreen: React.FC<SignInScreenProps> = ({
       setIsDisabled(true);
       setInvokeErrorMessage("");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, password]);
 
   const handlePress = () => {
-    if (email === "test@ttt.ru" && password === "qwezxcqwE1") {
+    if (email === "test@test.ru" && password === "qwezxcqwE1") {
       setUser("token");
     } else {
       setInvokeErrorMessage("Пользователь не найден");

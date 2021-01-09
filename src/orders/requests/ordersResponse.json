@@ -1,0 +1,82 @@
+{
+  "orders": [
+    {
+      "id": "50190032",
+      "status": {
+        "id": 0,
+        "name": "Новый"
+      },
+      "restaurant": {
+        "name": "Шаляпин",
+        "adress": "Санкт-Петербург, пос. Репино, ул. Нагорная, д. 1.",
+        "phone": "+78124320775"
+      },
+      "incomingDate": {
+        "time": "12:30",
+        "date": "11.07.2020"
+      },
+      "summary": "21890,90",
+      "deliveryDate": null
+    },
+    {
+      "id": "79040004",
+      "status": {
+        "id": 1,
+        "name": "Подтвержден"
+      },
+      "restaurant": {
+        "name": "Che-Dor",
+        "adress": "Санкт-Петербург, Приморское ш., 376 а",
+        "phone": "+78124552755"
+      },
+      "incomingDate": {
+        "time": "10:25",
+        "date": "10.07.2020"
+      },
+      "summary": "30729,30",
+      "deliveryDate": {
+        "period": "14:00—15:00",
+        "date": "11.07.2020"
+      }
+    },
+    {
+      "id": "79040003",
+      "status": {
+        "id": 1,
+        "name": "Подтвержден"
+      },
+      "restaurant": {
+        "name": "Che-Dor",
+        "adress": "Санкт-Петербург, Приморское ш., 376 а",
+        "phone": "+78124552755"
+      },
+      "incomingDate": {
+        "time": "10:25",
+        "date": "10.07.2020"
+      },
+      "summary": "30729,30",
+      "deliveryDate": {
+        "period": "14:00—15:00",
+        "date": "11.07.2020"
+      }
+    },
+    {
+      "id": "30010091",
+      "status": {
+        "id": 2,
+        "name": "Отменен"
+      },
+      "restaurant": {
+        "name": "ТОКИО-CITY",
+        "adress": "Санкт-Петербург, ул. Чайковского, 18",
+        "phone": "+78123053565"
+      },
+      "incomingDate": {
+        "time": "10:10",
+        "date": "09.07.2020"
+      },
+      "summary": "11670,00",
+      "deliveryDate": null
+    }
+  ]
+}

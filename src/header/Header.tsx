@@ -39,7 +39,7 @@ const HeaderContainer = styled.header`
   width: 100vw;
   display: flex;
   align-items: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
   z-index:1;
 `;
 
