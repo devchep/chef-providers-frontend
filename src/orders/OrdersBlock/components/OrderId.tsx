@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { getStatusColorById } from "../helpers";
 import { Status } from "../types";
 
 interface OrderIdProps {
@@ -7,15 +8,13 @@ interface OrderIdProps {
   status: Status;
 }
 
-// TODO: add margins
 const OrderId: React.FC<OrderIdProps> = ({ id, status }: OrderIdProps) => {
-  const orderStatusColor = ["#00BCB1", "#110EC2", "#646464"];
   const [orderStatus, setOrderStatus] = useState<Status>(status);
   return (
     <OrderIdContainer>
       <IdItemContainer>#{id}</IdItemContainer>
       <IdItemContainer>
-        <OrderStatus backgroundColor={orderStatusColor[status.id]}>
+        <OrderStatus backgroundColor={getStatusColorById(status.id)}>
           {orderStatus.name}
         </OrderStatus>
       </IdItemContainer>
@@ -32,6 +31,7 @@ const OrderIdContainer = styled.div`
 `;
 
 const IdItemContainer = styled.div`
+  margin-top: 0.5em;
   display: flex;
   justify-content: flex-start;
 `;

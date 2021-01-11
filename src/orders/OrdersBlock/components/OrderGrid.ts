@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-// bg color can change
+// bg color can change ||priority = high||
 const OrderGrid = styled.div`
   height: 100%;
   width: 100%;

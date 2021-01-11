@@ -20,18 +20,18 @@ export interface Status {
   name: string;
 }
 
-interface Restaurant {
+export interface Restaurant {
   name: string;
   adress: string;
   phone: string;
 }
 
-interface IncomingDate {
+export interface IncomingDate {
   time: string;
   date: string;
 }
 
-interface DeliveryDate {
+export interface DeliveryDate {
   period: string;
   date: string;
 }
