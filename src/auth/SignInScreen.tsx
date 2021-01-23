@@ -4,17 +4,21 @@ import SignInInput from "./SignInInput";
 import EmailIcon from "./EmailIcon";
 import PasswordIcon from "./PasswordIcon";
 import { isEmail, isAllowedPassword } from "./helpers";
+import { useLoginMutation } from "../generated/graphql";
+import { User } from "./types";
 
 interface SignInScreenProps {
-  setUser: React.Dispatch<React.SetStateAction<string>>;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 }
 
+// Выход из профиля
 const SignInScreen: React.FC<SignInScreenProps> = ({
   setUser,
 }: SignInScreenProps) => {
   const [email, setEmail] = useState("");
-  const emailValidationMessage = "Некорректный адрес эл. почты";
   const [password, setPassword] = useState("");
+
+  const emailValidationMessage = "Некорректный адрес эл. почты";
   const passwordValidationMessage =
     "Пароль должен содержать больше 8 символов, 1 строчную, 1 заглавную букву и 1 цифру";
   const [isDisabled, setIsDisabled] = useState(true);
@@ -26,6 +30,8 @@ const SignInScreen: React.FC<SignInScreenProps> = ({
     return isAllowedPassword(password);
   };
 
+  const [_, signIn] = useLoginMutation();
+
   useEffect(() => {
     if (isEmailValid() && isPasswordValid()) {
       setIsDisabled(false);
@@ -36,11 +42,16 @@ const SignInScreen: React.FC<SignInScreenProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, password]);
 
-  const handlePress = () => {
-    if (email === "test@test.ru" && password === "qwezxcqwE1") {
-      setUser("token");
+  const handlePress = async () => {
+    if (isEmailValid() && isPasswordValid()) {
+      const response = await signIn({ userEmail: email, password: password });
+      if (response.data?.login.errors) {
+        setInvokeErrorMessage(response.data.login.errors.message);
+      }
+      if (response.data?.login.supplier) {
+        setUser(response.data?.login.supplier);
+      }
     } else {
-      setInvokeErrorMessage("Пользователь не найден");
     }
   };
   return (
@@ -68,6 +79,11 @@ const SignInScreen: React.FC<SignInScreenProps> = ({
         validationMessage={passwordValidationMessage}
         isValid={isPasswordValid()}
       />
+      {invokeErrorMessage !== "" ? (
+        <InvokedErrorMessage>{invokeErrorMessage}</InvokedErrorMessage>
+      ) : (
+        <InvokedErrorMessage />
+      )}
       <SignInButton
         onClick={handlePress}
         disabled={isDisabled}
@@ -75,12 +91,25 @@ const SignInScreen: React.FC<SignInScreenProps> = ({
       >
         Войти
       </SignInButton>
-      {invokeErrorMessage !== "" && (
-        <InvokedErrorMessage>{invokeErrorMessage}</InvokedErrorMessage>
-      )}
     </SignInForm>
   );
 };
+
+const SignInForm = styled.div`
+  width: 32%;
+  height: 68%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: fixed;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  box-shadow: 2px 4px 11px #000000;
+  border-radius: 20px;
+`;
 
 const SignInHeader = styled.div`
   position: absolute;
@@ -107,27 +136,11 @@ const FormHeader = styled.div`
   padding-bottom: 2%;
 `;
 
-const SignInForm = styled.div`
-  width: 32%;
-  height: 68%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: flex-start;
-  position: fixed;
-  top: 55%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  box-shadow: 2px 4px 11px #000000;
-  border-radius: 20px;
-`;
-
 const SignInButton = styled.button<{ isDisabled: boolean }>`
   cursor: ${(props) => (props.isDisabled ? "normal" : "pointer")};
   outline: none;
   border: none;
-  margin-top: 5em;
+  margin-top: 2.5em;
   width: 42%;
   height: 12%;
   font-size: 1.4em;
@@ -142,7 +155,9 @@ const SignInButton = styled.button<{ isDisabled: boolean }>`
 `;
 
 const InvokedErrorMessage = styled.div`
-  margin-top: 1em;
+  max-width: 80%;
+  height: 5%;
+  margin-top: 2.5em;
   color: #a72b2b;
 `;
 

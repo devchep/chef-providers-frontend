@@ -3,16 +3,18 @@ import styled from "styled-components";
 import Header from "./header/Header";
 import Main from "./Main";
 import SignInScreen from "./auth/SignInScreen";
+import { User } from "./auth/types";
 
+// check if already has cookie
 function App() {
-  const [user, setUser] = useState('fefw');
+  const [user, setUser] = useState<User>(null);
   return user ? (
     <AppContainer>
       <Header />
       <Main />
     </AppContainer>
   ) : (
-    <SignInScreen setUser={setUser}/>
+    <SignInScreen setUser={setUser} />
   );
 }
 

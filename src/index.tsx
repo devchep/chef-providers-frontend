@@ -4,11 +4,21 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
+import { createClient, Provider } from "urql";
+
+const graphqlClient = createClient({
+  url: "http://localhost:4200/graphql",
+  fetchOptions: {
+    credentials: "include",
+  },
+});
 
 ReactDOM.render(
-    <BrowserRouter>
+  <BrowserRouter>
+    <Provider value={graphqlClient}>
       <App />
-    </BrowserRouter>,
+    </Provider>
+  </BrowserRouter>,
   document.getElementById("root")
 );
 

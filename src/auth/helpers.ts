@@ -1,12 +1,3 @@
-/** @function
- * @name isEmail
- * Returns true if string is a correct email
- *
- * An email contains latin letters, numbers, dot, gap, dash symbols.
- * Domain has at least 2 letters. The @ sign is necessary.
- *
- * @param {string} email - string to check
- * */
 export function isEmail(email: string): boolean {
   const emailRegexp = /([a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,})/;
 
@@ -19,12 +10,12 @@ export function isEmail(email: string): boolean {
  * @name isAllowedPassword
  * Returns true if string is a password which passes all the tests.
  *
- * An allowed password must contain at least 8 symbols, at least one uppercase letter or at least 1 numeric
+ * An allowed password must contain at least 6 symbols, at least one uppercase letter or at least 1 numeric
  *
  * @param {string} password - string to check
  * */
 export function isAllowedPassword(password: string): boolean {
-  const passwordRegexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+  const passwordRegexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/;
 
   if (!password) return false;
 

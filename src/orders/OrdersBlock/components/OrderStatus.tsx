@@ -28,7 +28,7 @@ const OrderInfoWrapper = styled.div<{justifyContent: string}>`
   display: flex;
   flex-direction: column;
   justify-content: ${props => props.justifyContent};
-  align-items: center;
+  align-items: ${props => props.justifyContent};
   height: 100%;
   width: 100%;
   grid-area: orderStatus;
@@ -50,6 +50,7 @@ const ChangeStatusButton = styled.div`
   color: #fff;
   background-color: #8b54d1;
   margin-bottom: 1.2em;
+  margin-right: 1.2em;
 `;
 
 export default OrderStatus;

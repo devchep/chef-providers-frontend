@@ -12,7 +12,6 @@ interface OrderProps {
   orderInfo: OrderInfo;
 }
 
-// TODO: add all grid-fields ||priority = critical||
 const Order: React.FC<OrderProps> = ({ orderInfo }: OrderProps) => {
   return (
     <OrderContainer>
