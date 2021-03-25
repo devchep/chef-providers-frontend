@@ -1,0 +1,10 @@
+mutation UpdateActiveCategory($activeCategoryId: Int!, $isShown: Boolean!) {
+  updateActiveCategory(activeCategoryId: $activeCategoryId, isShown: $isShown) {
+    id
+    category {
+      id
+      name
+    }
+    isShown
+  }
+}

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import TickedItem from "./TickedItem";
-import ItemMenu from "../img/ItemMenu";
-import DeleteItemIcon from "../img/DeleteItemIcon";
-import { SubcategoryInfo } from "./types";
+import ItemMenu from "../../img/ItemMenu";
+import DeleteItemIcon from "../../img/DeleteItemIcon";
+import { SubcategoryInfo } from "../types";
 
 interface SubcategoryProps {
   onClickSubcategory: (subcategoryInfo: SubcategoryInfo) => void;

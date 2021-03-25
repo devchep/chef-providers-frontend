@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import UntickedBox from "../img/UntickedBox";
-import TickedBox from "../img/TickedBox";
+import UntickedBox from "../../img/UntickedBox";
+import TickedBox from "../../img/TickedBox";
 
 interface CheckboxProps {
   onPress: () => void;

@@ -1,36 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AddCategoryIcon from "../../img/AddCategoryIcon";
 import NewActiveCategoryModal from "./NewActiveCategoryModal";
 import { CategoryCard, CategoryInfo } from "../types";
+import { useShownCategoriesQuery } from "../../generated/graphql";
 
 interface CategoriesBlockProps {
-  activeCategories: CategoryCard[];
   currentCategory: CategoryInfo | undefined;
   onClickCategory: (CategoryCard: CategoryCard) => void;
 }
 
 const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
-  activeCategories,
   currentCategory,
   onClickCategory,
 }: CategoriesBlockProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const activeItems = activeCategories.map((item) => (
-    <CategoryContainer key={item.name}>
-      <CategoryButton
-        selected={item.id === currentCategory?.id}
-        onClick={() => onClickCategory(item)}
-      >
-        <CategoryButtonText>{item.name}</CategoryButtonText>
-      </CategoryButton>
-    </CategoryContainer>
-  ));
+
+  const [result] = useShownCategoriesQuery();
+  const { data } = result;
+
+  const activeCategories = data?.getShownCategories ? (
+    data.getShownCategories.map((item) => (
+      <CategoryContainer key={item.id}>
+        <CategoryButton
+          selected={item.category.id === currentCategory?.id}
+          onClick={() => onClickCategory(item.category)}
+        >
+          <CategoryButtonText>{item.category.name}</CategoryButtonText>
+        </CategoryButton>
+      </CategoryContainer>
+    ))
+  ) : (
+    <EmptyCategories>У вас нет активных категорий</EmptyCategories>
+  );
 
   return (
     <CategoriesBlockContainer>
       <CategoriesLabel htmlFor="addCategory">Категории</CategoriesLabel>
-      {isOpen && <NewActiveCategoryModal onClose={setIsOpen}/>}
+      {isOpen && <NewActiveCategoryModal isOpen={setIsOpen} shownCategoriesData={data}/>}
       <AddCategoryButton id="addCategory" onClick={() => setIsOpen(!isOpen)}>
         <AddCategoryIcon />
         <ButtonText>Добавить категорию</ButtonText>
@@ -38,7 +45,7 @@ const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
       <CategoryTypeContainer>
         <CategoryType>АКТИВНЫЕ</CategoryType>
       </CategoryTypeContainer>
-      {activeItems}
+      {activeCategories}
     </CategoriesBlockContainer>
   );
 };
@@ -127,6 +134,10 @@ const CategoryButtonText = styled.div`
   margin-left: 0.8em;
   font-size: 1rem;
   color: black;
+`;
+
+const EmptyCategories = styled.div`
+  margin-top: 10px;
 `;
 
 export default CategoriesBlock;

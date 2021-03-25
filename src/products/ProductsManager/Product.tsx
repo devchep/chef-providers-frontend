@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import TickedItem from "./TickedItem";
-import ItemMenu from "../img/ItemMenu";
-import ProductModal from "./ProductModal";
-import ProductDeleteIcon from "../img/ProductDeleteIcon";
-import { ProductInfo } from "./types";
+import ItemMenu from "../../img/ItemMenu";
+import ProductDeleteIcon from "../../img/ProductDeleteIcon";
+import { ProductInfo } from "../types";
+import CreateProduct from "../operations/CreateProduct";
 
 interface ProductProps {
   product: ProductInfo;
@@ -15,9 +15,7 @@ const Product: React.FC<ProductProps> = ({ product }: ProductProps) => {
   const [isOpenDeleter, setIsOpenDeleter] = useState(false);
   return (
     <ProductItem key={product.id}>
-      {isOpen && (
-        <ProductModal product={product} setIsOpen={setIsOpen}></ProductModal>
-      )}
+      {isOpen && <CreateProduct product={product} setIsOpen={setIsOpen} />}
       <TickedItem type="product" status={product.isActive} />
       <ProductItemInfoContainer onClick={() => setIsOpen(!isOpen)}>
         <ProductName>{product.name}</ProductName>

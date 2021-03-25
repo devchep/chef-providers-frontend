@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ReactDOM from "react-dom";
-import ProductCancelEdit from "../img/ProductCancelEdit";
-import ProductModalProp from "./ProductModalTextProp";
-import { ProductInfo } from "./types";
+import ProductCancelEdit from "../../../img/ProductCancelEdit";
+import ProductModalProp from "./TextParam";
+import { ProductInfo } from "../../types";
+import { CreateProductInput } from "../../../generated/graphql";
+import CalculatedParam from "./CalculatedParam";
 
 interface ProductEditModalProps {
   product: ProductInfo;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  callback: (values: CreateProductInput) => Promise<void>;
 }
 
 // TODO: add all edit props
@@ -15,9 +18,10 @@ interface ProductEditModalProps {
 const ProductModal: React.FC<ProductEditModalProps> = ({
   product,
   setIsOpen,
+  callback,
 }: ProductEditModalProps) => {
   const [inputName, setInputName] = useState(product.name);
-  const [inputDesc, setInputDesc] = useState("");
+  const [inputDesc, setInputDesc] = useState(product.description);
   const [inputPrice, setInputPrice] = useState(product.price);
   const [inputMeasure, setInputMeasure] = useState(product.measure);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -25,7 +29,8 @@ const ProductModal: React.FC<ProductEditModalProps> = ({
     return (
       product.name !== inputName ||
       product.price !== inputPrice ||
-      product.measure !== inputMeasure
+      product.measure !== inputMeasure ||
+      product.description != inputDesc
     );
   };
 
@@ -36,10 +41,11 @@ const ProductModal: React.FC<ProductEditModalProps> = ({
       setIsButtonDisabled(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputName, inputPrice, inputMeasure]);
+  }, [inputName, inputPrice, inputMeasure, inputDesc]);
 
   const saveAll = () => {
-    console.log("saveAll");
+    //onChangeParameter(parseFloat(value));
+    callback(product);
     setIsOpen(false);
   };
 
@@ -56,15 +62,21 @@ const ProductModal: React.FC<ProductEditModalProps> = ({
         <ProductInfoContainer>
           <ProductModalProp
             propName="Название*"
-            property={inputName}
-            onChangeProperty={setInputName}
-            currentProperty={product.name}
+            parameter={inputName}
+            onChangeParameter={setInputName}
           />
           <ProductModalProp
             propName="Описание*"
-            property={inputDesc}
-            onChangeProperty={setInputDesc}
+            parameter={inputDesc}
+            onChangeParameter={setInputDesc}
             big
+          />
+          <CalculatedParam
+            propName="Цена*"
+            parameter={inputPrice}
+            onChangeParameter={setInputPrice}
+            measure={inputMeasure}
+            onChangeMeasure={setInputMeasure}
           />
         </ProductInfoContainer>
         <SaveButtonContainer

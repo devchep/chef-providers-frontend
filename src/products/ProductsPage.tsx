@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ProductsTopPanel from "./ProductsTopPanel/ProductsTopPanel";
-import CategoriesBlock from "./CategoriesBlock/CategoriesBlock";
-import ProductsManager from "./ProductsManager";
+import CategoriesBlock from "./CategoriesBlock";
+import ProductsManager from "./ProductsManager/ProductsManager";
 
 import categoriesResponce from "./requests/categoriesResponce.json";
 import productsResponce from "./requests/productsResponce.json";
 import categoryProductsResponce from "./requests/categoryProductsResponce.json";
 import { useHistory } from "react-router-dom";
-import { CategoryCard, CategoryInfo, SubcategoryInfo, ProductInfo } from "./types";
+import {
+  CategoryCard,
+  CategoryInfo,
+  SubcategoryInfo,
+  ProductInfo,
+} from "./types";
 
 const ProductsPage: React.FC = () => {
   let history = useHistory();
   const [categories, setCategories] = useState(categoriesResponce);
-  const [activeCategories, setActiveCategories] = useState<CategoryCard[]>(
-    categories.active.map((obj) => {
-      return { name: obj.name, id: obj.id };
-    })
-  );
-  const [activeCategoryInfo, setActiveCategoryInfo] = useState<CategoryInfo | undefined>(
-    categoriesResponce.active[0]
-  );
+  // const [activeCategories, setActiveCategories] = useState<
+  //   ActiveCategory[] | null | undefined
+  // >(data?.getActiveCategories);s
+  
+  const [activeCategoryInfo, setActiveCategoryInfo] = useState<
+    CategoryInfo | undefined
+  >(categoriesResponce.active[0]);
   const [activeProducts, setActiveProducts] = useState<
     ProductInfo[] | undefined
   >(undefined);
@@ -68,7 +72,6 @@ const ProductsPage: React.FC = () => {
     <ProductsContainer>
       <ProductsTopPanel />
       <CategoriesBlock
-        activeCategories={activeCategories}
         currentCategory={activeCategoryInfo}
         onClickCategory={onClickCategory}
       />

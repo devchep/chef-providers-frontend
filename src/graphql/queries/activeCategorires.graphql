@@ -1,0 +1,10 @@
+query ActiveCategories {
+  getActiveCategories {
+    id
+    category {
+      id
+      name
+    }
+    isShown
+  }
+}

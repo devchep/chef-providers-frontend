@@ -1,21 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Header from "./header/Header";
 import Main from "./Main";
 import SignInScreen from "./auth/SignInScreen";
-import { User } from "./auth/types";
+import { AuthProvider } from "./auth/AuthContext";
+import { useMeQuery } from "./generated/graphql";
 
-// check if already has cookie
 function App() {
-  const [user, setUser] = useState<User>(null);
-  return user ? (
-    <AppContainer>
-      <Header />
-      <Main />
-    </AppContainer>
-  ) : (
-    <SignInScreen setUser={setUser} />
-  );
+  const [{ data, fetching }] = useMeQuery();
+
+  let body = null;
+
+  if (fetching) {
+  } else if (!data?.me) {
+    body = <SignInScreen />;
+  } else {
+    body = (
+      <AuthProvider value={{ user: null }}>
+        <AppContainer>
+          <Header />
+          <Main />
+        </AppContainer>
+      </AuthProvider>
+    );
+  }
+
+  return <>{body}</>;
 }
 
 const AppContainer = styled.div`

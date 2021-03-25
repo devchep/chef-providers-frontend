@@ -1,15 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { ProductInfo } from "../types";
 import Product from "./Product";
 
 interface ProductsListProps {
-  products: {
-    id: number;
-    name: string;
-    price: number;
-    measure: string;
-    isActive: boolean;
-  }[];
+  products: ProductInfo[];
 }
 
 const ProductsList: React.FC<ProductsListProps> = ({

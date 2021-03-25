@@ -1,33 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 
-interface ProductModalPropProps {
+interface TextParamProps {
   propName: string;
-  property: string;
-  onChangeProperty: React.Dispatch<React.SetStateAction<string>>;
-  currentProperty?: string;
+  parameter: string;
+  onChangeParameter: React.Dispatch<React.SetStateAction<string>>;
   big?: boolean;
 }
 
-const ProductModalTextProp: React.FC<ProductModalPropProps> = ({
+const TextParam: React.FC<TextParamProps> = ({
   propName,
-  property,
-  onChangeProperty,
-  currentProperty,
+  parameter,
+  onChangeParameter,
   big = false,
-}: ProductModalPropProps) => {
+}: TextParamProps) => {
   return (
     <ProductPropContainer>
       <ProductPropLabel>{propName}</ProductPropLabel>
       {big ? (
         <ProductDescriptionTextArea
-          value={property}
-          onChange={(e) => onChangeProperty(e.target.value)}
+          value={parameter}
+          onChange={(e) => onChangeParameter(e.target.value)}
         />
       ) : (
         <ProductDescriptionInput
-          value={property}
-          onChange={(e) => onChangeProperty(e.target.value)}
+          value={parameter}
+          onChange={(e) => onChangeParameter(e.target.value)}
         />
       )}
     </ProductPropContainer>
@@ -84,4 +82,4 @@ const ProductDescriptionTextArea = styled.textarea`
   }
 `;
 
-export default ProductModalTextProp;
+export default TextParam;

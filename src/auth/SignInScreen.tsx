@@ -5,16 +5,8 @@ import EmailIcon from "./EmailIcon";
 import PasswordIcon from "./PasswordIcon";
 import { isEmail, isAllowedPassword } from "./helpers";
 import { useLoginMutation } from "../generated/graphql";
-import { User } from "./types";
 
-interface SignInScreenProps {
-  setUser: React.Dispatch<React.SetStateAction<User>>;
-}
-
-// Выход из профиля
-const SignInScreen: React.FC<SignInScreenProps> = ({
-  setUser,
-}: SignInScreenProps) => {
+const SignInScreen: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -48,9 +40,9 @@ const SignInScreen: React.FC<SignInScreenProps> = ({
       if (response.data?.login.errors) {
         setInvokeErrorMessage(response.data.login.errors.message);
       }
-      if (response.data?.login.supplier) {
-        setUser(response.data?.login.supplier);
-      }
+      // if (response.data?.login.supplier) {
+      //   setUser(response.data?.login.supplier);
+      // }
     } else {
     }
   };

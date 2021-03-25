@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import EditItemIcon from "../img/EditItemIcon";
-import DeleteitemIcon from "../img/EditItemDeleteIcon";
+import EditItemIcon from "../../img/EditItemIcon";
+import DeleteitemIcon from "../../img/EditItemDeleteIcon";
 
 interface ProductEditModalProps {
   isModalOpen: React.Dispatch<React.SetStateAction<boolean>>;

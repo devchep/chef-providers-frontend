@@ -1,0 +1,3 @@
+mutation AddActiveCategory($categoryId: Int!) {
+  addActiveCategory(categoryId: $categoryId)
+}

@@ -2,84 +2,127 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import CategoryAddCancel from "../../img/CategoryAddCancel";
 import Category from "./Category";
-import categoriesResponce from "../requests/allCategories.json";
+import {
+  ShownCategoriesQuery,
+  useAddActiveCategoryMutation,
+  useCategoriesQuery,
+  useUpdateActiveCategoryMutation,
+} from "../../generated/graphql";
 
 interface ProductEditModalProps {
-  onClose: React.Dispatch<React.SetStateAction<boolean>>;
+  shownCategoriesData: ShownCategoriesQuery | undefined;
+  isOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // TODO: update state on saveAll
 const NewActiveCategory: React.FC<ProductEditModalProps> = ({
-  onClose,
+  shownCategoriesData,
+  isOpen,
 }: ProductEditModalProps) => {
-  const [pickedCategoriesSet, setPickedCategoriesSet] = useState(
-    new Set<string>()
+  const [newCategoriesSet, setNewCategoriesSet] = useState(new Set<number>());
+  const [updateCategoriesSet, setUpdateCategoriesSet] = useState(
+    new Set<number>()
   );
-  const [allCategories, setAllCategories] = useState(<CategoriesContainer />);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  const handleChange = (category: string) => {
-    if (pickedCategoriesSet.has(category)) {
-      pickedCategoriesSet.delete(category);
-      setPickedCategoriesSet(new Set(pickedCategoriesSet));
-    } else {
-      pickedCategoriesSet.add(category);
-      setPickedCategoriesSet(new Set(pickedCategoriesSet));
-    }
-  };
+  const activeCategories = shownCategoriesData?.getShownCategories
+    ? shownCategoriesData.getShownCategories
+    : null;
 
-  const saveAll = () => {
-    console.log("saveAll");
-    onClose(false);
-  };
+  const [
+    addActiveCategoryResult,
+    addActiveCategory,
+  ] = useAddActiveCategoryMutation();
+  const [
+    updateActiveCategoryResult,
+    updateActiveCategory,
+  ] = useUpdateActiveCategoryMutation();
 
-  useEffect(() => {
-    document.getElementById("add-new-category")?.focus();
-    setAllCategories(
-      <CategoriesContainer>
-        <ActiveCategoriesLabel>НЕАКТИВНЫЕ</ActiveCategoriesLabel>
-        {categoriesResponce.inactive.map((item) => (
-          <Category
-            key={item.id}
-            category={item.name}
-            isActive={false}
-            handleChange={handleChange}
-          />
-        ))}
-        <ActiveCategoriesLabel>АКТИВНЫЕ</ActiveCategoriesLabel>
-        {categoriesResponce.active.map((item) => (
-          <Category
-            key={item.id}
-            category={item.name}
-            isActive={true}
-            handleChange={handleChange}
-          />
-        ))}
-      </CategoriesContainer>
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [result] = useCategoriesQuery();
+  const { data } = result;
 
   useEffect(() => {
-    if (pickedCategoriesSet.size) {
+    if (newCategoriesSet.size || updateCategoriesSet.size) {
       setIsButtonDisabled(false);
     } else {
       setIsButtonDisabled(true);
     }
-  }, [pickedCategoriesSet]);
+  }, [newCategoriesSet, updateCategoriesSet]);
+
+  const handleNewCategoriesSet = (categoryId: number) => {
+    if (newCategoriesSet.has(categoryId)) {
+      newCategoriesSet.delete(categoryId);
+      setNewCategoriesSet(new Set(newCategoriesSet));
+    } else {
+      newCategoriesSet.add(categoryId);
+      setNewCategoriesSet(new Set(newCategoriesSet));
+    }
+  };
+
+  const handleUpdateCategoriesSet = (categoryId: number) => {
+    if (updateCategoriesSet.has(categoryId)) {
+      updateCategoriesSet.delete(categoryId);
+      setUpdateCategoriesSet(new Set(updateCategoriesSet));
+    } else {
+      updateCategoriesSet.add(categoryId);
+      setUpdateCategoriesSet(new Set(updateCategoriesSet));
+    }
+  };
+
+  const updateAll = async () => {
+    newCategoriesSet.forEach(async (categoryId) => {
+      await addActiveCategory({ categoryId });
+    });
+    updateCategoriesSet.forEach(async (activeCategoryId) => {
+      await updateActiveCategory({ activeCategoryId, isShown: false });
+    });
+  };
+
+  const saveAll = () => {
+    updateAll().then(() => {
+      isOpen(false);
+    });
+    window.location.reload();
+    console.log("saveAll");
+  };
 
   return (
     <NewActiveCategoryContainer
       id="add-new-category"
       tabIndex={1}
-      onBlur={() => onClose(false)}
+      onBlur={() => isOpen(false)}
     >
       <HeaderContainer>
-        <CancelEditButton onClick={() => onClose(false)}>
+        <CancelEditButton onClick={() => isOpen(false)}>
           <CategoryAddCancel />
         </CancelEditButton>
       </HeaderContainer>
-      {allCategories}
+      <CategoriesContainer>
+        <ActiveCategoriesLabel>НЕАКТИВНЫЕ</ActiveCategoriesLabel>
+        {data?.categories.map((item) => {
+          if (
+            activeCategories?.find((element) => element.category.id === item.id)
+          )
+            return;
+          return (
+            <Category
+              key={item.id}
+              category={item.name}
+              isActive={false}
+              handleChange={() => handleNewCategoriesSet(item.id)}
+            />
+          );
+        })}
+        <ActiveCategoriesLabel>АКТИВНЫЕ</ActiveCategoriesLabel>
+        {activeCategories?.map((item) => (
+          <Category
+            key={item.category.id}
+            category={item.category.name}
+            isActive={true}
+            handleChange={() => handleUpdateCategoriesSet(item.id)}
+          />
+        ))}
+      </CategoriesContainer>
       <CategoryButton
         isDisabled={isButtonDisabled}
         onClick={saveAll}

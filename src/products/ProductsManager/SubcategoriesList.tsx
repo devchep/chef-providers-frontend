@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Subcategory from "./Subcategory";
-import { SubcategoryInfo } from "./types";
+import { SubcategoryInfo } from "../types";
 
 interface SubcategoriesListProps {
   onClickSubcategory: (subcategoryInfo: SubcategoryInfo) => void;

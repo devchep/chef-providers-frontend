@@ -1,0 +1,10 @@
+query ShownCategories {
+  getShownCategories {
+    id
+    category {
+      id
+      name
+    }
+    isShown
+  }
+}

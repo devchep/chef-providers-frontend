@@ -3,21 +3,33 @@
   "products": [
     {
       "id": 1,
+      "subcategoryId": 1,
+      "activeSubcategoryId": 2,
+      "amount": 5,
       "name": "Креветки тигровые с головой",
+      "description": "Классные креветки в полосочку",
       "price": 1337,
       "measure": "кг",
       "isActive": true
     },
     {
       "id": 2,
+      "subcategoryId": 1,
+      "activeSubcategoryId": 2,
+      "amount": 5,
       "name": "Креветки тигровые с головой",
+      "description": "Классные креветки в полосочку",
       "price": 1337,
       "measure": "кг",
       "isActive": true
     },
     {
       "id": 3,
+      "subcategoryId": 1,
+      "activeSubcategoryId": 2,
+      "amount": 5,
       "name": "Креветки тигровые с головой",
+      "description": "Классные креветки в полосочку",
       "price": 1337,
       "measure": "кг",
       "isActive": true
