@@ -9,7 +9,7 @@ import EditItemModal from "./EditItemModal";
 interface CurrentCategoryProps {
   categoryName: string | undefined;
   productsAmount?: number | undefined;
-  onGoBack: () => void;
+  // onGoBack: () => void;
   subcategory?: SubcategoryInfo;
 }
 
@@ -17,16 +17,16 @@ interface CurrentCategoryProps {
 const CurrentCategory: React.FC<CurrentCategoryProps> = ({
   categoryName,
   productsAmount,
-  onGoBack,
+  // onGoBack,
   subcategory = undefined,
 }: CurrentCategoryProps) => {
   const [isOpenEditor, setIsOpenEditor] = useState(false);
   return (
     <CategoryHeaderContainer>
       <Route path="/Товары/:category/:subcategory">
-        <GoBack onClick={onGoBack}>
+        {/* <GoBack onClick={onGoBack}>
           <GoBackIcon />
-        </GoBack>
+        </GoBack> */}
       </Route>
       <Route path="/Товары/:category/:subcategory">
         <CategoryName>

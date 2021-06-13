@@ -6,8 +6,8 @@ export type CategoryCard = {
 export type SubcategoryInfo = {
   id: number;
   name: string;
-  amount: number;
-  isActive: boolean;
+  // amount: number;
+  isShown: boolean;
 };
 
 export type CategoryInfo = {
@@ -20,11 +20,10 @@ export type CategoryInfo = {
 export type ProductInfo = {
   id: number;
   subcategoryId: number;
-  activeSubcategoryId: number;
   name: string;
   amount: number;
   description: string;
   price: number;
   measure: string;
-  isActive: boolean;
+  isShown: boolean;
 };

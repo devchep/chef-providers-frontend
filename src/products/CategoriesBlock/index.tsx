@@ -2,22 +2,45 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AddCategoryIcon from "../../img/AddCategoryIcon";
 import NewActiveCategoryModal from "./NewActiveCategoryModal";
-import { CategoryCard, CategoryInfo } from "../types";
-import { useShownCategoriesQuery } from "../../generated/graphql";
+import { Category, useShownCategoriesQuery } from "../../generated/graphql";
+import { useHistory } from "react-router-dom";
 
 interface CategoriesBlockProps {
-  currentCategory: CategoryInfo | undefined;
-  onClickCategory: (CategoryCard: CategoryCard) => void;
+  currentCategory: Category | undefined;
+  setCurrentCategory: React.Dispatch<
+    React.SetStateAction<Category | undefined>
+  >;
 }
 
 const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
   currentCategory,
-  onClickCategory,
+  setCurrentCategory,
 }: CategoriesBlockProps) => {
+  let history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
+  const [isInitialCategory, setIsInitialCategory] = useState(true)
 
   const [result] = useShownCategoriesQuery();
   const { data } = result;
+
+  useEffect(() => {
+    // render 2 times hm
+    if (!isInitialCategory) {
+      return
+    }
+    if (data?.getShownCategories) {
+      setCurrentCategory(data.getShownCategories[0].category);
+      history.replace(`/Товары/${data.getShownCategories[0].category.name}`);
+    } else {
+      history.replace(`/Товары`);
+    }
+  }, [data?.getShownCategories]);
+
+  const onClickCategory = (category: Category) => {
+    setIsInitialCategory(false)
+    setCurrentCategory(category);
+    history.replace(`/Товары/${category.name}`);
+  };
 
   const activeCategories = data?.getShownCategories ? (
     data.getShownCategories.map((item) => (
@@ -37,7 +60,9 @@ const CategoriesBlock: React.FC<CategoriesBlockProps> = ({
   return (
     <CategoriesBlockContainer>
       <CategoriesLabel htmlFor="addCategory">Категории</CategoriesLabel>
-      {isOpen && <NewActiveCategoryModal isOpen={setIsOpen} shownCategoriesData={data}/>}
+      {isOpen && (
+        <NewActiveCategoryModal isOpen={setIsOpen} shownCategoriesData={data} />
+      )}
       <AddCategoryButton id="addCategory" onClick={() => setIsOpen(!isOpen)}>
         <AddCategoryIcon />
         <ButtonText>Добавить категорию</ButtonText>

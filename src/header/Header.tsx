@@ -14,7 +14,7 @@ const Header = () => {
         <HeaderNavItems>
           <HeaderNavItem name="Заказы" />
           <HeaderNavItem name="Товары" />
-          <HeaderNavItem name="История" />
+          {/* <HeaderNavItem name="История" /> */}
           <HeaderNavItem name="Профиль" />
         </HeaderNavItems>
       </nav>
@@ -26,7 +26,7 @@ const HeaderNavItems = styled.ul`
   list-style: none;
   width: 45vw;
   display: flex;
-  margin-left: 15vw;
+  margin-left: 20vw;
 `;
 
 const NavLogo = styled(NavLink)`

@@ -20,10 +20,13 @@ const Order: React.FC<OrderProps> = ({ orderInfo }: OrderProps) => {
         <RestaurantInfo restaurant={orderInfo.restaurant} />
         <OrderDate incomingDate={orderInfo.incomingDate} />
         <OrderSummary summary={orderInfo.summary} />
-        <OrderStatus
-          status={orderInfo.status}
-          deliveryDate={orderInfo.deliveryDate}
-        />
+        {orderInfo.status.id != 2 && (
+          <OrderStatus
+            orderId={orderInfo.id}
+            status={orderInfo.status}
+            deliveryDate={orderInfo.deliveryDate}
+          />
+        )}
       </OrderGrid>
     </OrderContainer>
   );
@@ -32,7 +35,7 @@ const Order: React.FC<OrderProps> = ({ orderInfo }: OrderProps) => {
 const OrderContainer = styled.li`
   padding: 0;
   margin: 0;
-  height: 30%;
+  min-height: 30%;
   width: 100%;
   border-bottom: 2px solid #dddddd;
   background-color: #fff;

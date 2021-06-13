@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 interface OrderSummaryProps {
-  summary: string;
+  summary: number;
 }
 
 // TODO: format sum ||priority = normal||

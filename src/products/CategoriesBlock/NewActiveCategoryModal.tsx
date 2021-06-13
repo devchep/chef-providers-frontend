@@ -14,7 +14,6 @@ interface ProductEditModalProps {
   isOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-// TODO: update state on saveAll
 const NewActiveCategory: React.FC<ProductEditModalProps> = ({
   shownCategoriesData,
   isOpen,
@@ -81,9 +80,8 @@ const NewActiveCategory: React.FC<ProductEditModalProps> = ({
   const saveAll = () => {
     updateAll().then(() => {
       isOpen(false);
+      window.location.reload();
     });
-    window.location.reload();
-    console.log("saveAll");
   };
 
   return (

@@ -12,8 +12,8 @@ const OrderDate: React.FC<OrderDateProps> = ({
 }: OrderDateProps) => {
   return (
     <OrderInfoWrapper>
-      <DateTopBlock>{incomingDate.time}</DateTopBlock>
-      <DateBottomBlock>{incomingDate.date}</DateBottomBlock>
+      {/* <DateTopBlock>{incomingDate}</DateTopBlock> */}
+      <DateBottomBlock>{incomingDate}</DateBottomBlock>
     </OrderInfoWrapper>
   );
 };

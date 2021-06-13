@@ -1,18 +1,33 @@
 import React from "react";
 import styled from "styled-components";
+import { ActiveSubcategoryQuery } from "../../generated/graphql";
 import { ProductInfo } from "../types";
 import Product from "./Product";
 
 interface ProductsListProps {
-  products: ProductInfo[];
+  activeSubcategoryQuery: ActiveSubcategoryQuery;
 }
 
 const ProductsList: React.FC<ProductsListProps> = ({
-  products,
+  activeSubcategoryQuery,
 }: ProductsListProps) => {
-  const productsList = products.map((item) => (
-    <Product key={item.id} product={item}/>
-  ));
+  const productsList = activeSubcategoryQuery.getActiveSubcategory?.products
+    ? activeSubcategoryQuery.getActiveSubcategory?.products.map((item) => (
+        <Product
+          key={item.id}
+          product={{
+            id: item.id,
+            subcategoryId: item.subcategoryId,
+            name: item.name,
+            amount: item.amount,
+            description: item.description,
+            price: item.price,
+            measure: item.measure,
+            isShown: item.isShown,
+          }}
+        />
+      ))
+    : null;
   return <ProductsContainer>{productsList}</ProductsContainer>;
 };
 

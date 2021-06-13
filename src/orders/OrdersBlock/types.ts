@@ -7,17 +7,17 @@ export enum UnitStyle {
 }
 
 export interface OrderInfo {
-  id: string;
+  id: number;
   status: Status;
   restaurant: Restaurant;
   incomingDate: IncomingDate;
-  summary: string;
+  summary: number;
   deliveryDate: DeliveryDate | null;
 }
 
 export interface Status {
   id: number;
-  name: string;
+  name?: string;
 }
 
 export interface Restaurant {

@@ -16,7 +16,9 @@ function App() {
     body = <SignInScreen />;
   } else {
     body = (
-      <AuthProvider value={{ user: null }}>
+      <AuthProvider
+        value={{ user: { id: data.me.id, userEmail: data.me.userEmail } }}
+      >
         <AppContainer>
           <Header />
           <Main />

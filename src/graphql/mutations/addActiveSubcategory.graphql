@@ -1,0 +1,6 @@
+mutation AddActiveSubcategory($activeCategoryId: Int!, $subcategoryId: Int!) {
+  addActiveSubcategory(
+    activeCategoryId: $activeCategoryId
+    subcategoryId: $subcategoryId
+  )
+}

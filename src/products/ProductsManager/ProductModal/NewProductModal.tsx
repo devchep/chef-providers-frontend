@@ -4,49 +4,66 @@ import ReactDOM from "react-dom";
 import ProductCancelEdit from "../../../img/ProductCancelEdit";
 import ProductModalProp from "./TextParam";
 import { ProductInfo } from "../../types";
-import { CreateProductInput } from "../../../generated/graphql";
 import CalculatedParam from "./CalculatedParam";
+import {
+  ActiveSubcategoryQuery,
+  CreateProductInput,
+  useCreateProductMutation,
+} from "../../../generated/graphql";
+import AmountParam from "./AmountParam";
 
 interface ProductEditModalProps {
-  product: ProductInfo;
+  activeSubcategoryQuery: ActiveSubcategoryQuery;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  callback: (values: CreateProductInput) => Promise<void>;
 }
 
 // TODO: add all edit props
 // TODO: update state on saveAll
-const ProductModal: React.FC<ProductEditModalProps> = ({
-  product,
+const NewProductModal: React.FC<ProductEditModalProps> = ({
+  activeSubcategoryQuery,
   setIsOpen,
-  callback,
 }: ProductEditModalProps) => {
-  const [inputName, setInputName] = useState(product.name);
-  const [inputDesc, setInputDesc] = useState(product.description);
-  const [inputPrice, setInputPrice] = useState(product.price);
-  const [inputMeasure, setInputMeasure] = useState(product.measure);
+  const [inputName, setInputName] = useState<string>("");
+  const [inputDesc, setInputDesc] = useState<string>("");
+  const [inputPrice, setInputPrice] = useState<number>(0);
+  const [inputAmount, setInputAmount] = useState<number>(0);
+  const [inputMeasure, setInputMeasure] = useState<string>("кг");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const hasChanges = () => {
-    return (
-      product.name !== inputName ||
-      product.price !== inputPrice ||
-      product.measure !== inputMeasure ||
-      product.description != inputDesc
-    );
+  const isFilled = () => {
+    return inputName && inputPrice && inputDesc && inputAmount;
   };
 
+  const [_, createProduct] = useCreateProductMutation();
+
   useEffect(() => {
-    if (hasChanges()) {
+    if (isFilled()) {
       setIsButtonDisabled(false);
     } else {
       setIsButtonDisabled(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputName, inputPrice, inputMeasure, inputDesc]);
+  }, [inputName, inputPrice, inputMeasure, inputDesc, inputAmount]);
+
+  const handleCreateProduct = async (values: CreateProductInput) => {
+    await createProduct({ input: values });
+    window.location.reload();
+  };
 
   const saveAll = () => {
     //onChangeParameter(parseFloat(value));
-    callback(product);
-    setIsOpen(false);
+    if (activeSubcategoryQuery.getActiveSubcategory) {
+      handleCreateProduct({
+        activeSubcategoryId: activeSubcategoryQuery.getActiveSubcategory?.id,
+        subcategoryId:
+          activeSubcategoryQuery.getActiveSubcategory?.subcategory.id,
+        name: inputName,
+        description: inputDesc,
+        price: inputPrice,
+        measure: inputMeasure,
+        amount: inputAmount,
+      });
+      setIsOpen(false);
+    }
   };
 
   const productModal = document.getElementById("product-modal") as HTMLElement;
@@ -54,7 +71,7 @@ const ProductModal: React.FC<ProductEditModalProps> = ({
     <ProductModalContainer>
       <ProductInfoModal>
         <ProductModalHeader>
-          <ProductHeaderName>{product.name}</ProductHeaderName>
+          <ProductHeaderName>Новый продукт</ProductHeaderName>
           <CancelEditButton onClick={() => setIsOpen(false)}>
             <ProductCancelEdit />
           </CancelEditButton>
@@ -75,8 +92,14 @@ const ProductModal: React.FC<ProductEditModalProps> = ({
             propName="Цена*"
             parameter={inputPrice}
             onChangeParameter={setInputPrice}
+            propMeasureName="Ед. измерения*"
             measure={inputMeasure}
             onChangeMeasure={setInputMeasure}
+          />
+          <AmountParam
+            propName="Количество*"
+            parameter={inputAmount}
+            onChangeParameter={setInputAmount}
           />
         </ProductInfoContainer>
         <SaveButtonContainer
@@ -167,4 +190,4 @@ const SaveButtonContainer = styled.button<{ isDisabled: boolean }>`
   border-radius: 0px 0px 20px 20px;
 `;
 
-export default ProductModal;
+export default NewProductModal;

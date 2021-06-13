@@ -4,7 +4,8 @@ import TickedItem from "./TickedItem";
 import ItemMenu from "../../img/ItemMenu";
 import ProductDeleteIcon from "../../img/ProductDeleteIcon";
 import { ProductInfo } from "../types";
-import CreateProduct from "../operations/CreateProduct";
+import UpdateProductModal from "./ProductModal/UpdateProductModal";
+import { useDeleteProductMutation } from "../../generated/graphql";
 
 interface ProductProps {
   product: ProductInfo;
@@ -13,10 +14,22 @@ interface ProductProps {
 const Product: React.FC<ProductProps> = ({ product }: ProductProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDeleter, setIsOpenDeleter] = useState(false);
+  const [
+    deleteProductResult,
+    deleteProductQuery,
+  ] = useDeleteProductMutation();
+
+  const handleRemoval = () => {
+    const query = deleteProductQuery({
+      id: product.id,
+    });
+    query.then(() => window.location.reload());
+  };
+
   return (
     <ProductItem key={product.id}>
-      {isOpen && <CreateProduct product={product} setIsOpen={setIsOpen} />}
-      <TickedItem type="product" status={product.isActive} />
+      {isOpen && <UpdateProductModal product={product} setIsOpen={setIsOpen} />}
+      <TickedItem type="product" status={product.isShown} />
       <ProductItemInfoContainer onClick={() => setIsOpen(!isOpen)}>
         <ProductName>{product.name}</ProductName>
         <ProductItemInfo>
@@ -31,7 +44,13 @@ const Product: React.FC<ProductProps> = ({ product }: ProductProps) => {
         onPointerLeave={() => setIsOpenDeleter(false)}
         isDeleter={isOpenDeleter}
       >
-        {isOpenDeleter ? <ProductDeleteIcon /> : <ItemMenu />}
+        {isOpenDeleter ? (
+          <div onClick={() => handleRemoval()}>
+            <ProductDeleteIcon />
+          </div>
+        ) : (
+          <ItemMenu />
+        )}
       </ProductMenu>
     </ProductItem>
   );

@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { getStatusColorById } from "../helpers";
 import { Status } from "../types";
 
 interface OrderIdProps {
-  id: string;
+  id: number;
   status: Status;
 }
 
+const status2name = ["Новый", "Подтвержден", "Отменен"];
+
 const OrderId: React.FC<OrderIdProps> = ({ id, status }: OrderIdProps) => {
-  const [orderStatus, setOrderStatus] = useState<Status>(status);
   return (
     <OrderIdContainer>
       <IdItemContainer>#{id}</IdItemContainer>
       <IdItemContainer>
         <OrderStatus backgroundColor={getStatusColorById(status.id)}>
-          {orderStatus.name}
+          {status2name[status.id]}
         </OrderStatus>
       </IdItemContainer>
     </OrderIdContainer>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SubcategoriesList from "./SubcategoriesList";
 import { Route, Switch } from "react-router-dom";
@@ -6,50 +6,72 @@ import ProductsList from "./ProductsList";
 import CurrentCategory from "./CurrentCategory";
 import { CategoryInfo, SubcategoryInfo, ProductInfo } from "../types";
 import AddItemIcon from "../../img/AddItemIcon";
+import NewActiveSubcategoryModal from "./SubcategoryModal/NewActiveSubcategoryModal";
+import {
+  Category,
+  useActiveCategoryQuery,
+  useActiveSubcategoryQuery,
+} from "../../generated/graphql";
+import NewProductModal from "./ProductModal/NewProductModal";
 
 interface ProductsManagerProps {
   onClickSubcategory: (subcategoryInfo: SubcategoryInfo) => void;
-  activeProducts: ProductInfo[] | undefined;
   activeSubcategory: SubcategoryInfo | undefined;
-  activeCategory: CategoryInfo | undefined;
-  onGoBackToCategory: (categoryInfo: CategoryInfo) => void;
+  activeCategory: Category | undefined;
+  // onGoBackToCategory: (categoryInfo: CategoryInfo) => void;
 }
 
-// TODO: Refactor Interfaces
-// TODO: saveAll (set of ids if !empty - render button)
+// TODO: saveAll (set of ids if !empty -> render button)
 const ProductsManager: React.FC<ProductsManagerProps> = ({
   activeCategory,
   activeSubcategory,
-  activeProducts,
   onClickSubcategory,
-  onGoBackToCategory,
-}: ProductsManagerProps) => {
-  const onGoBack = () => {
-    if (activeCategory) onGoBackToCategory(activeCategory);
-  };
-  const subategories = activeCategory ? (
+}: // onGoBackToCategory,
+ProductsManagerProps) => {
+  // const onGoBack = () => {
+  //   if (activeCategory) onGoBackToCategory(activeCategory);
+  // };
+  const [isSubcategoryModalOpen, setIsSubcategoryModalOpen] = useState(false);
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+
+  const [activeCategoryResult] = useActiveCategoryQuery({
+    pause: !activeCategory?.id,
+    // @ts-ignore
+    variables: { categoryId: activeCategory?.id },
+  });
+  const activeCategoryData = activeCategoryResult.data;
+
+  const [activeSubcategoryResult] = useActiveSubcategoryQuery({
+    pause: !activeSubcategory?.id,
+    // @ts-ignore
+    variables: { subcategoryId: activeSubcategory?.id },
+  });
+  const activeSubcategoryData = activeSubcategoryResult.data;
+
+  const subategories = activeCategoryData ? (
     <SubcategoriesList
-      subcategories={activeCategory.subcategories}
+      activeCategoryQuery={activeCategoryData}
       onClickSubcategory={onClickSubcategory}
     />
   ) : null;
-  const products = activeProducts ? (
-    <ProductsList products={activeProducts} />
+  const products = activeSubcategoryData ? (
+    <ProductsList activeSubcategoryQuery={activeSubcategoryData} />
   ) : null;
+
   return (
     <ScrollableView>
       <ProductsManagerContainer>
         <Route exact path="/Товары/:category">
           <CurrentCategory
             categoryName={activeCategory?.name}
-            productsAmount={activeCategory?.amount}
-            onGoBack={onGoBack}
+            // productsAmount={activeCategory?.amount}
+            // onGoBack={onGoBack}
           />
         </Route>
         <Route path="/Товары/:category/:subcategory">
           <CurrentCategory
             categoryName={activeCategory?.name}
-            onGoBack={onGoBack}
+            // onGoBack={onGoBack}
             subcategory={activeSubcategory}
           />
         </Route>
@@ -57,7 +79,23 @@ const ProductsManager: React.FC<ProductsManagerProps> = ({
           <Route exact path="/Товары/:category">
             <SubcategoryLabel color="#FFF5D0">
               Подкатегории
-              <LabelAddButton color="#FFE380">
+              {isSubcategoryModalOpen &&
+                activeCategoryData?.getActiveCategory?.activeSubcategories && (
+                  <NewActiveSubcategoryModal
+                    isOpen={setIsSubcategoryModalOpen}
+                    categoryId={
+                      activeCategoryData.getActiveCategory.category.id
+                    }
+                    activeCategoryId={activeCategoryData.getActiveCategory.id}
+                    activeSubcategoriesIds={activeCategoryData?.getActiveCategory?.activeSubcategories.map(
+                      (item) => item.subcategory.id
+                    )}
+                  />
+                )}
+              <LabelAddButton
+                color="#FFE380"
+                onClick={() => setIsSubcategoryModalOpen(true)}
+              >
                 <AddItemIcon />
                 <AddButtonText>добавить</AddButtonText>
               </LabelAddButton>
@@ -66,30 +104,39 @@ const ProductsManager: React.FC<ProductsManagerProps> = ({
             <SubcategoryLabel color="#EEEEEE">
               Товары без подкатегории
               <SubcategoryInfoContainer>
-                {activeProducts?.length !== undefined && (
+                {/* {activeProducts?.length !== undefined && (
                   <ProductsAmount>
                     всего {activeProducts.length} позиций
                   </ProductsAmount>
-                )}
+                )} */}
                 <LabelAddButton color="#DBDBDB">
                   <AddItemIcon />
                   <AddButtonText>добавить</AddButtonText>
                 </LabelAddButton>
               </SubcategoryInfoContainer>
             </SubcategoryLabel>
-            {products}
+            {/* {products} */}
           </Route>
           <Route path="/Товары/:category/:subcategory">
             <ProductLabel>
-              <LabelAddButton color="#DBDBDB">
+              {isProductModalOpen && activeSubcategoryData && (
+                <NewProductModal
+                  activeSubcategoryQuery={activeSubcategoryData}
+                  setIsOpen={setIsProductModalOpen}
+                />
+              )}
+              <LabelAddButton
+                color="#DBDBDB"
+                onClick={() => setIsProductModalOpen(true)}
+              >
                 <AddItemIcon />
                 <AddButtonText>добавить</AddButtonText>
               </LabelAddButton>
-              {activeProducts?.length !== undefined && (
+              {/* {activeProducts?.length !== undefined && (
                 <SubcategoryAmount>
                   Всего {activeProducts.length} позиций
                 </SubcategoryAmount>
-              )}
+              )} */}
             </ProductLabel>
             {products}
           </Route>

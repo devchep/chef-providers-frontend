@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import FiltersBlock from "./FiltersBlock";
 import OrdersBlock from "./OrdersBlock";
@@ -13,6 +13,7 @@ const OrdersPage: React.FC = () => {
 };
 
 const OrdersContainer = styled.div`
+  overflow-y: scroll;
   min-height: 88vh;
   max-height: 88vh;
   display: flex;

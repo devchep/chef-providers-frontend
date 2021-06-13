@@ -4,6 +4,7 @@ import TickedItem from "./TickedItem";
 import ItemMenu from "../../img/ItemMenu";
 import DeleteItemIcon from "../../img/DeleteItemIcon";
 import { SubcategoryInfo } from "../types";
+import { useDeleteActiveSubcategoryMutation } from "../../generated/graphql";
 
 interface SubcategoryProps {
   onClickSubcategory: (subcategoryInfo: SubcategoryInfo) => void;
@@ -15,15 +16,24 @@ const Subcategory: React.FC<SubcategoryProps> = ({
   onClickSubcategory,
 }: SubcategoryProps) => {
   const [isOpenDeleter, setIsOpenDeleter] = useState(false);
+  const [
+    deleteActiveSubcategoryResult,
+    deleteActiveSubcategoryQuery,
+  ] = useDeleteActiveSubcategoryMutation();
+
+  const handleRemoval = () => {
+    const query = deleteActiveSubcategoryQuery({
+      subcategoryId: subcategory.id,
+    });
+    query.then(() => window.location.reload());
+  };
   return (
     <SubcategoryItem key={subcategory.name}>
-      <TickedItem type="subcategory" status={subcategory.isActive} />
-      <TouchableOpacity
-        onClick={() => onClickSubcategory(subcategory)}
-      >
+      <TickedItem type="subcategory" status={subcategory.isShown} />
+      <TouchableOpacity onClick={() => onClickSubcategory(subcategory)}>
         <SubcategoryName>{subcategory.name}</SubcategoryName>
         <SubcategoryInfoContainer>
-          <ProductsAmount>всего {subcategory.amount} позиций</ProductsAmount>
+          {/* <ProductsAmount>всего {subcategory.amount} позиций</ProductsAmount> */}
           <SubcategoryLabel>подкатегория</SubcategoryLabel>
         </SubcategoryInfoContainer>
       </TouchableOpacity>
@@ -33,7 +43,13 @@ const Subcategory: React.FC<SubcategoryProps> = ({
         onPointerLeave={() => setIsOpenDeleter(false)}
         isDeleter={isOpenDeleter}
       >
-        {isOpenDeleter ? <DeleteItemIcon /> : <ItemMenu />}
+        {isOpenDeleter ? (
+          <div onClick={handleRemoval}>
+            <DeleteItemIcon />
+          </div>
+        ) : (
+          <ItemMenu />
+        )}
       </SubcategoryMenu>
     </SubcategoryItem>
   );

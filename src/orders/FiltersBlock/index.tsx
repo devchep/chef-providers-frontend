@@ -5,7 +5,7 @@ import OrderSearchInput from "./OrdersSearchInput";
 const FiltersBlock: React.FC = () => {
   return (
     <FiltersBlockContainer>
-      <OrderSearchInput />
+      {/* <OrderSearchInput /> */}
     </FiltersBlockContainer>
   );
 };

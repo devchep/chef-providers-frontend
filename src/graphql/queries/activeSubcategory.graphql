@@ -1,0 +1,20 @@
+query ActiveSubcategory($subcategoryId: Int!) {
+  getActiveSubcategory(subcategoryId: $subcategoryId) {
+    id
+    subcategory {
+      id
+      name
+    }
+    products {
+      id
+      subcategoryId
+      name
+      description
+      price
+      measure
+      amount
+      isShown
+    }
+    isShown
+  }
+}

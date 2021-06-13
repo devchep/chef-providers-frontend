@@ -4,84 +4,36 @@ import ProductsTopPanel from "./ProductsTopPanel/ProductsTopPanel";
 import CategoriesBlock from "./CategoriesBlock";
 import ProductsManager from "./ProductsManager/ProductsManager";
 
-import categoriesResponce from "./requests/categoriesResponce.json";
-import productsResponce from "./requests/productsResponce.json";
-import categoryProductsResponce from "./requests/categoryProductsResponce.json";
 import { useHistory } from "react-router-dom";
-import {
-  CategoryCard,
-  CategoryInfo,
-  SubcategoryInfo,
-  ProductInfo,
-} from "./types";
+import { SubcategoryInfo } from "./types";
+import { Category } from "../generated/graphql";
 
 const ProductsPage: React.FC = () => {
   let history = useHistory();
-  const [categories, setCategories] = useState(categoriesResponce);
-  // const [activeCategories, setActiveCategories] = useState<
-  //   ActiveCategory[] | null | undefined
-  // >(data?.getActiveCategories);s
-  
-  const [activeCategoryInfo, setActiveCategoryInfo] = useState<
-    CategoryInfo | undefined
-  >(categoriesResponce.active[0]);
-  const [activeProducts, setActiveProducts] = useState<
-    ProductInfo[] | undefined
-  >(undefined);
+
+  const [currentCategory, setCurrentCategory] = useState<
+    Category | undefined
+  >();
   const [activeSubcategory, setActiveSubcategory] = useState<
     SubcategoryInfo | undefined
   >(undefined);
 
-  // ajax category -> CategoryInfo
-  const getActiveCategory = (categoryId: number) => {
-    return categories.active.find((x) => x.id === categoryId);
-  };
-
-  useEffect(() => {
-    // ajax categoryId -> ProductInfo list
-    activeCategoryInfo?.id === 3
-      ? setActiveProducts(categoryProductsResponce.products)
-      : setActiveProducts(undefined);
-    history.replace(`/Товары/${activeCategoryInfo?.name}`);
-  }, []);
-
-  const onClickCategory = (categoryCard: CategoryCard) => {
-    setActiveCategoryInfo(getActiveCategory(categoryCard.id));
-    categoryCard.id === 3
-      ? setActiveProducts(categoryProductsResponce.products)
-      : setActiveProducts(undefined);
-    history.replace(`/Товары/${categoryCard.name}`);
-  };
-
   const onClickSubcategory = (subcategoryInfo: SubcategoryInfo) => {
-    // ajax categoryId + subcategoryId -> ProductInfo list
     setActiveSubcategory(subcategoryInfo);
-    setActiveProducts(
-      productsResponce.subcategories.find(
-        (x) => x.subcategoryId === subcategoryInfo.id
-      )?.products
-    );
-    history.push(`/Товары/${activeCategoryInfo?.name}/${subcategoryInfo.name}`);
-  };
-  // TODO: add new category to activeCategories
-  const onAddCategory = () => {
-    alert("addCat");
+    history.push(`/Товары/${currentCategory?.name}/${subcategoryInfo.name}`);
   };
 
   return (
     <ProductsContainer>
       <ProductsTopPanel />
       <CategoriesBlock
-        currentCategory={activeCategoryInfo}
-        onClickCategory={onClickCategory}
+        currentCategory={currentCategory}
+        setCurrentCategory={setCurrentCategory}
       />
-
       <ProductsManager
-        activeCategory={activeCategoryInfo}
+        activeCategory={currentCategory}
         activeSubcategory={activeSubcategory}
-        activeProducts={activeProducts}
         onClickSubcategory={onClickSubcategory}
-        onGoBackToCategory={onClickCategory}
       />
     </ProductsContainer>
   );

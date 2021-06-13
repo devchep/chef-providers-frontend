@@ -2,21 +2,26 @@ import React from "react";
 import styled from "styled-components";
 import Subcategory from "./Subcategory";
 import { SubcategoryInfo } from "../types";
+import { ActiveCategoryQuery } from "../../generated/graphql";
 
 interface SubcategoriesListProps {
   onClickSubcategory: (subcategoryInfo: SubcategoryInfo) => void;
-  subcategories: SubcategoryInfo[];
+  activeCategoryQuery: ActiveCategoryQuery;
 }
 
 const SubcategoriesList: React.FC<SubcategoriesListProps> = ({
-  subcategories,
+  activeCategoryQuery,
   onClickSubcategory,
 }: SubcategoriesListProps) => {
-  const categories = subcategories
-    ? subcategories.map((item) => (
+  const categories = activeCategoryQuery.getActiveCategory?.activeSubcategories
+    ? activeCategoryQuery.getActiveCategory?.activeSubcategories.map((item) => (
         <Subcategory
           key={item.id}
-          subcategory={item}
+          subcategory={{
+            id: item.subcategory.id,
+            name: item.subcategory.name,
+            isShown: item.isShown,
+          }}
           onClickSubcategory={onClickSubcategory}
         />
       ))

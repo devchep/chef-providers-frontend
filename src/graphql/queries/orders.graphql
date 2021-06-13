@@ -1,0 +1,12 @@
+query Orders {
+  orders {
+    id
+    restaurantName
+    shippingAdress
+    phoneNumber
+    summary
+    status
+    deliveryDate
+    createdAt
+  }
+}

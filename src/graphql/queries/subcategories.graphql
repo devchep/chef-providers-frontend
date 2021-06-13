@@ -1,0 +1,7 @@
+query Subcategories($categoryId: Int!) {
+  subcategories(categoryId: $categoryId) {
+    id
+    categoryId
+    name
+  }
+}
