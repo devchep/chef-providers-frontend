@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-interface CalculatedParamProps {
+interface PriceParamProps {
   propName: string;
-  parameter: number;
-  onChangeParameter: React.Dispatch<React.SetStateAction<number>>;
+  price: number;
+  onChangePrice: React.Dispatch<React.SetStateAction<number>>;
   propMeasureName: string;
   measure: string;
   onChangeMeasure: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CalculatedParam: React.FC<CalculatedParamProps> = ({
+const PriceParam: React.FC<PriceParamProps> = ({
   propName,
-  parameter,
-  onChangeParameter,
+  price,
+  onChangePrice,
   propMeasureName,
   measure,
   onChangeMeasure,
-}: CalculatedParamProps) => {
+}: PriceParamProps) => {
   const options = ["кг", "уп"];
   const [isDropDownOpen, setIsDropdownOpen] = useState(false);
 
@@ -31,23 +31,23 @@ const CalculatedParam: React.FC<CalculatedParamProps> = ({
     if (value === "" || regx.test(value)) {
       const floatValue = value.match(regx);
       if (floatValue) {
-        onChangeParameter(parseFloat(floatValue[0]));
+        onChangePrice(parseFloat(floatValue[0]));
       }
     }
   };
   return (
-    <CalculatedParamWrapper>
-      <ParameterWrapper>
-        <ParameterLabel>{propName}</ParameterLabel>
-        <Parameter
-          value={parameter}
+    <PriceParamWrapper>
+      <PriceWrapper>
+        <PriceLabel>{propName}</PriceLabel>
+        <Price
+          value={price == 0 ? "" : price}
           type="number"
           step="0.01"
           onChange={(e) => handleChange(e.target.value)}
         />
-      </ParameterWrapper>
-      <ParameterWrapper>
-        <ParameterLabel>{propMeasureName}</ParameterLabel>
+      </PriceWrapper>
+      <PriceWrapper>
+        <PriceLabel>{propMeasureName}</PriceLabel>
         <DropDownContainer>
           <DropDownHeader onClick={() => setIsDropdownOpen(!isDropDownOpen)}>
             {measure || "кг"}
@@ -67,12 +67,12 @@ const CalculatedParam: React.FC<CalculatedParamProps> = ({
             </DropDownListContainer>
           )}
         </DropDownContainer>
-      </ParameterWrapper>
-    </CalculatedParamWrapper>
+      </PriceWrapper>
+    </PriceParamWrapper>
   );
 };
 
-const CalculatedParamWrapper = styled.div`
+const PriceParamWrapper = styled.div`
   width: 70%;
   display: flex;
   flex-direction: row;
@@ -80,17 +80,17 @@ const CalculatedParamWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const ParameterWrapper = styled.div`
+const PriceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 1em;
 `;
 
-const ParameterLabel = styled.div`
+const PriceLabel = styled.div`
   font-size: 1.2em;
 `;
 
-const Parameter = styled.input`
+const Price = styled.input`
   ::-webkit-outer-spin-button,
   ::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -121,6 +121,7 @@ const Parameter = styled.input`
 
 const DropDownContainer = styled.div`
   width: 10.5em;
+  position: relative;
 `;
 
 const DropDownHeader = styled.div`
@@ -163,4 +164,4 @@ const ListItem = styled.li`
   }
 `;
 
-export default CalculatedParam;
+export default PriceParam;

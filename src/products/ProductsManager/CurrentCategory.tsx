@@ -3,7 +3,7 @@ import styled from "styled-components";
 import CategoryMenu from "../../img/CategoryMenu";
 import GoBackIcon from "../../img/GoBackIcon";
 import { Route } from "react-router-dom";
-import { SubcategoryInfo, CategoryInfo } from "../types";
+import { SubcategoryInfo, CategoryInfo } from "../../types";
 import EditItemModal from "./EditItemModal";
 
 interface CurrentCategoryProps {

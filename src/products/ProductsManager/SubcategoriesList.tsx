@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Subcategory from "./Subcategory";
-import { SubcategoryInfo } from "../types";
+import { SubcategoryInfo } from "../../types";
 import { ActiveCategoryQuery } from "../../generated/graphql";
 
 interface SubcategoriesListProps {

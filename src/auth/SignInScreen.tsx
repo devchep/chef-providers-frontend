@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SignInInput from "./SignInInput";
-import EmailIcon from "./EmailIcon";
-import PasswordIcon from "./PasswordIcon";
-import { isEmail, isAllowedPassword } from "./helpers";
+import EmailIcon from "./icons/EmailIcon";
+import PasswordIcon from "./icons/PasswordIcon";
+import { isEmail, isAllowedPassword } from "../helpers";
+import {authConstants} from "../constants"
 import { useLoginMutation } from "../generated/graphql";
 
 const SignInScreen: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const emailValidationMessage = "Некорректный адрес эл. почты";
-  const passwordValidationMessage =
-    "Пароль должен содержать больше 8 символов, 1 строчную, 1 заглавную букву и 1 цифру";
   const [isDisabled, setIsDisabled] = useState(true);
   const [invokeErrorMessage, setInvokeErrorMessage] = useState("");
   const isEmailValid = () => {
@@ -59,7 +56,7 @@ const SignInScreen: React.FC = () => {
         label="Адрес эл. почты"
         inputIcon={<EmailIcon />}
         inputType="text"
-        validationMessage={emailValidationMessage}
+        validationMessage={authConstants.EMAIL_VALIDATION_MESSAGE}
         isValid={isEmailValid()}
       />
       <SignInInput
@@ -68,7 +65,7 @@ const SignInScreen: React.FC = () => {
         label="Пароль"
         inputIcon={<PasswordIcon />}
         inputType="password"
-        validationMessage={passwordValidationMessage}
+        validationMessage={authConstants.PASSWORD_VALIDATION_MESSAGE}
         isValid={isPasswordValid()}
       />
       {invokeErrorMessage !== "" ? (

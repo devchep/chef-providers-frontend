@@ -3,7 +3,7 @@ import styled from "styled-components";
 import TickedItem from "./TickedItem";
 import ItemMenu from "../../img/ItemMenu";
 import DeleteItemIcon from "../../img/DeleteItemIcon";
-import { SubcategoryInfo } from "../types";
+import { SubcategoryInfo } from "../../types";
 import { useDeleteActiveSubcategoryMutation } from "../../generated/graphql";
 
 interface SubcategoryProps {

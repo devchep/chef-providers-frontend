@@ -25,7 +25,7 @@ const AmountParam: React.FC<AmountParamProps> = ({
     <ParameterWrapper>
       <ParameterLabel>{propName}</ParameterLabel>
       <Parameter
-        value={parameter}
+        value={parameter == 0? "": parameter}
         type="number"
         onChange={(e) => handleChange(e.target.value)}
       />

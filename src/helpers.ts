@@ -19,5 +19,6 @@ export function isAllowedPassword(password: string): boolean {
 
   if (!password) return false;
 
-  return password.search(passwordRegexp) === 0;
+  // return password.search(passwordRegexp) === 0;
+  return true;
 }

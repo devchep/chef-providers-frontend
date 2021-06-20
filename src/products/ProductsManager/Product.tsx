@@ -3,7 +3,7 @@ import styled from "styled-components";
 import TickedItem from "./TickedItem";
 import ItemMenu from "../../img/ItemMenu";
 import ProductDeleteIcon from "../../img/ProductDeleteIcon";
-import { ProductInfo } from "../types";
+import { ProductInfo } from "../../types";
 import UpdateProductModal from "./ProductModal/UpdateProductModal";
 import { useDeleteProductMutation } from "../../generated/graphql";
 

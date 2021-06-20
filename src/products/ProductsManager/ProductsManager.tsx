@@ -4,7 +4,7 @@ import SubcategoriesList from "./SubcategoriesList";
 import { Route, Switch } from "react-router-dom";
 import ProductsList from "./ProductsList";
 import CurrentCategory from "./CurrentCategory";
-import { CategoryInfo, SubcategoryInfo, ProductInfo } from "../types";
+import { CategoryInfo, SubcategoryInfo, ProductInfo } from "../../types";
 import AddItemIcon from "../../img/AddItemIcon";
 import NewActiveSubcategoryModal from "./SubcategoryModal/NewActiveSubcategoryModal";
 import {

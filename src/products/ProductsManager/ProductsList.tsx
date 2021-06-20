@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { ActiveSubcategoryQuery } from "../../generated/graphql";
-import { ProductInfo } from "../types";
+import { ProductInfo } from "../../types";
 import Product from "./Product";
 
 interface ProductsListProps {

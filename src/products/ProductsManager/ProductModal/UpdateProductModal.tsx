@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ReactDOM from "react-dom";
 import ProductCancelEdit from "../../../img/ProductCancelEdit";
-import ProductModalProp from "./TextParam";
-import { ProductInfo } from "../../types";
-import CalculatedParam from "./CalculatedParam";
+import ProductModalProp from "./Params/TextParam";
+import { ProductInfo } from "../../../types";
+import PriceParam from "./Params/PriceParam";
 import {
   CreateProductInput,
   UpdateProductInput,
   useCreateProductMutation,
   useUpdateProductMutation,
 } from "../../../generated/graphql";
-import AmountParam from "./AmountParam";
+import AmountParam from "./Params/AmountParam";
 
 interface ProductEditModalProps {
   product: ProductInfo;
@@ -89,10 +89,10 @@ const UpdateProductModal: React.FC<ProductEditModalProps> = ({
             onChangeParameter={setInputDesc}
             big
           />
-          <CalculatedParam
+          <PriceParam
             propName="Цена (₽)*"
-            parameter={inputPrice}
-            onChangeParameter={setInputPrice}
+            price={inputPrice}
+            onChangePrice={setInputPrice}
             propMeasureName="Ед. измерения*"
             measure={inputMeasure}
             onChangeMeasure={setInputMeasure}

@@ -5,7 +5,7 @@ import CategoriesBlock from "./CategoriesBlock";
 import ProductsManager from "./ProductsManager/ProductsManager";
 
 import { useHistory } from "react-router-dom";
-import { SubcategoryInfo } from "./types";
+import { SubcategoryInfo } from "../types";
 import { Category } from "../generated/graphql";
 
 const ProductsPage: React.FC = () => {

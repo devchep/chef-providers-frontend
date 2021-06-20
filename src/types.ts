@@ -1,3 +1,8 @@
+export type User = {
+  id: number;
+  userEmail: string;
+} | null;
+
 export type CategoryCard = {
   id: number;
   name: string;
